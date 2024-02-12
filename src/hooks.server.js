@@ -12,8 +12,8 @@ const getUserFromToken = async token => {
     const verifiedToken = verify(token)
     const userId = verifiedToken?.userId
     const user = await db.select().from(users).where(eq(users.id, userId))
-    if (!user) return
-    const { password: _, ...authenticatedUser } = user
+    if (!user?.[0]) return
+    const { password: _, ...authenticatedUser } = user[0]
     return authenticatedUser
   } catch (error) {
     dev && console.error('getUserFromToken error', error)
