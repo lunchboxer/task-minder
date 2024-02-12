@@ -8,7 +8,7 @@
 </script>
 
 <div class="center-card">
-  <h1>Login required</h1>
+  <h1>Register</h1>
 
   <form method="post" use:enhance on:reset={reset}>
     <div class="field-group">
@@ -18,6 +18,17 @@
         <p class="error">
           {#if $errors.username}
             ! {$errors.username}
+          {:else}
+            &nbsp;
+          {/if}
+        </p>
+      </fieldset>
+      <fieldset class:invalid={$errors.name}>
+        <label for="name">Name</label>
+        <input name="name" type="text" bind:value={$form.name} aria-invalid="true" />
+        <p class="error">
+          {#if $errors.name}
+            ! {$errors.name}
           {:else}
             &nbsp;
           {/if}
@@ -34,10 +45,10 @@
         </p>
       </fieldset>
     </div>
-    <p>Don't have an account? <a href="/register">Register</a></p>
+    <p>Already have an account? <a href="/login">Log in</a></p>
     <div class="button-group">
       <input type="reset" />
-      <input type="submit" value="Log in" />
+      <input type="submit" value="Register" />
     </div>
   </form>
 </div>

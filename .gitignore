@@ -11,5 +11,5 @@ vite.config.ts.timestamp-*
 bun.lockb
 *.db
 *.sqlite
-fonts/*
+static/fonts/*
 notes.md

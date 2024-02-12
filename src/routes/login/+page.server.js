@@ -26,7 +26,7 @@ const schema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),
   password: z.string().min(4),
 })
-export const load = async () => {
+export const load = async ({ locals }) => {
   const form = await superValidate(schema)
   return { form }
 }
@@ -42,7 +42,7 @@ export const actions = {
     const user = await db
       .select({ id: users.id, password: users.password })
       .from(users)
-      .where(eq(users.username.toLowerCase(), username.toLowerCase()))
+      .where(eq(users.username, username.toLowerCase()))
       .limit(1)
 
     if (user && user.length === 0) {

@@ -270,7 +270,7 @@ fieldset,
 input,
 select,
 textarea {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .button[disabled],
@@ -314,7 +314,6 @@ input[type='text'],
 input[type='time'],
 input[type='url'],
 input[type='week'],
-input:not([type]),
 textarea,
 select {
   -webkit-appearance: none;
@@ -332,22 +331,6 @@ select {
   color-scheme: var(--color-scheme);
   min-width: 30ch;
   width: 100%;
-}
-
-fieldset.invalid label {
-  color: var(--error-color);
-}
-
-fieldset.invalid input {
-  border-color: var(--error-color);
-}
-
-fieldset.invalid input:focus {
-  border-color: var(--error-color);
-}
-
-.inline {
-  display: inline;
 }
 
 textarea {
@@ -384,7 +367,6 @@ input[type='tel']:focus,
 input[type='text']:focus,
 input[type='url']:focus,
 input[type='week']:focus,
-input:not([type]):focus,
 textarea:focus,
 select:focus {
   border: 2px solid var(--primary-color);
@@ -410,6 +392,22 @@ legend {
 fieldset {
   border-width: 0;
   padding: 0;
+}
+
+fieldset.invalid label {
+  color: var(--error-color);
+}
+
+fieldset.invalid input {
+  border-color: var(--error-color);
+}
+
+fieldset.invalid input:focus {
+  border-color: var(--error-color);
+}
+
+.inline {
+  display: inline;
 }
 
 input[type='checkbox'],
@@ -516,13 +514,15 @@ th:last-child {
 
 header {
   display: flex;
-  color: var(--primary-color);
+  justify-content: space-between;
+  align-items: baseline;
   background-color: var(--contrast-bg-color);
   padding: 1rem;
   box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
 }
 
 header h1 {
+  color: var(--primary-color);
   margin: 0;
   padding: 0;
   font-size: 1.3rem;
@@ -545,6 +545,15 @@ p.error {
   gap: 0.5rem;
   padding: 0.5rem 0;
   justify-content: flex-end;
+}
+
+.center-card {
+  position: fixed;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
 }
 
 @media (min-width: 576px) {
