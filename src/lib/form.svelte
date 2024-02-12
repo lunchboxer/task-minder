@@ -72,12 +72,7 @@
       <button type="reset" class="btn btn-outline gap-2" {disabled}>
         <Fa icon={faXmark} />reset
       </button>
-      <button
-        type="submit"
-        class:loading
-        class="btn btn-success gap-2"
-        {disabled}
-      >
+      <button type="submit" class:loading class="btn btn-success gap-2" {disabled}>
         <Fa icon={faCheck} />{submitLabel}
       </button>
     </p>

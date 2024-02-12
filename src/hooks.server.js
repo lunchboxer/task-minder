@@ -1,9 +1,9 @@
 import { dev } from '$app/environment'
+import { JWT_SECRET } from '$env/static/private'
 import { db, users } from '$lib/data'
+import { redirect } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 import { createVerifier } from 'fast-jwt'
-import { JWT_SECRET } from '$env/static/private'
-import { redirect } from '@sveltejs/kit'
 
 const getUserFromToken = async token => {
   if (!token) return

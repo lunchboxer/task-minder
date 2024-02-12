@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'JetBrains Mono';
   src:
-    /* local('JetBrainsMono-Thin'), */
-    /* local('JetBrains Mono Thin'), */
+    local('JetBrainsMono-Thin'),
+    local('JetBrains Mono Thin'),
     url('fonts/JetBrainsMono-Thin.woff2') format('woff2'),
     url('fonts/JetBrainsMono-Thin.woff') format('woff'),
     url('fonts/JetBrainsMono-Thin.ttf') format('truetype');
@@ -14,8 +14,8 @@
 @font-face {
   font-family: 'JetBrains Mono';
   src:
-    /* local('JetBrainsMono Extra-bold'), */
-    /* local('JetBrains Mono Extra-bold'), */
+    local('JetBrainsMono Extra-bold'),
+    local('JetBrains Mono Extra-bold'),
     url('fonts/JetBrainsMono-ExtraBold.woff2') format('woff2'),
     url('fonts/JetBrainsMono-ExtraBold.woff') format('woff'),
     url('fonts/JetBrainsMono-ExtraBold.ttf') format('truetype');
@@ -207,7 +207,7 @@ pre {
   font-size: 1rem;
 }
 
-pre>code {
+pre > code {
   border-radius: 0;
   white-space: pre;
   display: block;
@@ -340,8 +340,8 @@ textarea {
 }
 
 select {
-  /* background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23d1d1d1" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat; */
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="30"><path fill="%23d1d1d1" d="M0,0l6,8l6-8"/></svg>') center right no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="30"><path fill="%23d1d1d1" d="M0,0l6,8l6-8"/></svg>')
+    center right no-repeat;
   background-color: var(--contrast-bg-color);
   padding-right: 3rem;
   cursor: pointer;
@@ -515,9 +515,10 @@ th:last-child {
 header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   background-color: var(--contrast-bg-color);
-  padding: 1rem;
+  padding-left: 1rem;
+  height: 3rem;
   box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
 }
 
@@ -558,7 +559,8 @@ p.error {
 
 @media (min-width: 576px) {
   header {
-    padding: 1rem 2rem;
+    padding-left: 2rem;
+    padding-right: 1rem;
   }
 
   table {

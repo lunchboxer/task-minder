@@ -1,2 +1,2 @@
 export { notifications } from './data'
-export { default as NotificationList } from './NotificationList.svelte'
+export { default as NotificationList } from './notification-list.svelte'

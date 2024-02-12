@@ -18,7 +18,7 @@
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        class="stroke-info flex-shrink-0 w-6 h-6"
+        class="stroke-info h-6 w-6 flex-shrink-0"
         ><path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -30,7 +30,7 @@
     {#if type === 'warning'}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="stroke-current flex-shrink-0 h-6 w-6"
+        class="h-6 w-6 flex-shrink-0 stroke-current"
         fill="none"
         viewBox="0 0 24 24"
         ><path
@@ -44,7 +44,7 @@
     {#if type === 'success'}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="stroke-current flex-shrink-0 h-6 w-6"
+        class="h-6 w-6 flex-shrink-0 stroke-current"
         fill="none"
         viewBox="0 0 24 24"
         ><path
@@ -60,7 +60,7 @@
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        class="stroke-current flex-shrink-0 w-6 h-6"
+        class="h-6 w-6 flex-shrink-0 stroke-current"
         ><path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -72,7 +72,7 @@
     {#if type === 'error'}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="stroke-current flex-shrink-0 h-6 w-6"
+        class="h-6 w-6 flex-shrink-0 stroke-current"
         fill="none"
         viewBox="0 0 24 24"
         ><path

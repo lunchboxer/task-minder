@@ -1,5 +1,5 @@
 <script>
-  import NotificationItem from './NotificationItem.svelte'
+  import NotificationItem from './notification-item.svelte'
   import { notifications } from './data'
 </script>
 

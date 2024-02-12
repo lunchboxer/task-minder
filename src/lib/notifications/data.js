@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store'
 import { nanoid } from 'nanoid'
+import { writable } from 'svelte/store'
 
 const selfDestructDelay = 4000 // milliseconds
 
@@ -15,15 +15,15 @@ const createNotificationStore = () => {
 
   return {
     subscribe,
-    remove: (id) => {
-      update((previous) => {
-        const { [id]: value, ...withoutThisOne } = previous
-        return withoutThisOne
+    remove: id => {
+      update(previous => {
+        const { [id]: _, ...remainingNotifications } = previous
+        return remainingNotifications
       })
     },
     add: function (message) {
       const id = generateKey()
-      update((previous) => ({ ...previous, [id]: message }))
+      update(previous => ({ ...previous, [id]: message }))
       setTimeout(() => {
         this.remove(id)
       }, selfDestructDelay)

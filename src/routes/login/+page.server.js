@@ -1,13 +1,13 @@
-import { fail } from '@sveltejs/kit'
-import { z } from 'zod'
-import { superValidate, setError } from 'sveltekit-superforms/server'
 import { scryptSync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { db, users } from '$lib/data/index'
-import { eq } from 'drizzle-orm'
+import { fail } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
+import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
+import { setError, superValidate } from 'sveltekit-superforms/server'
+import { z } from 'zod'
 
 const sign = createSigner({ key: JWT_SECRET })
 

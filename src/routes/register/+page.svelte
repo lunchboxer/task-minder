@@ -1,6 +1,6 @@
 <script>
   import { superForm } from 'sveltekit-superforms/client'
-  import TextInput from '$lib/textinput.svelte'
+  import { TextInput } from '$lib/text-input.svelte'
 
   export let data
 
