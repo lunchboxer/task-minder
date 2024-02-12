@@ -394,15 +394,15 @@ fieldset {
   padding: 0;
 }
 
-fieldset.invalid label {
+label.error {
   color: var(--error-color);
 }
 
-fieldset.invalid input {
+input.error {
   border-color: var(--error-color);
 }
 
-fieldset.invalid input:focus {
+input.error:focus {
   border-color: var(--error-color);
 }
 
@@ -429,7 +429,7 @@ h5,
 h6 {
   text-wrap: balance;
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 100;
   line-height: 1.3;
 }

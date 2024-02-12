@@ -12,14 +12,22 @@
   }
 </script>
 
-<label for="password"> Password </label>
+<label class:error={!!errors} for="password"> Password </label>
 {#if showPassword}
-  <input class="password" bind:value name="password" type="text" />
+  <input
+    class="password"
+    class:error={!!errors}
+    aria-invalid={!!errors}
+    bind:value
+    name="password"
+    type="text"
+  />
 {:else}
   <input
     class="password"
     bind:value
-    aria-invalid={errors ? true : undefined}
+    class:error={!!errors}
+    aria-invalid={!!errors}
     name="password"
     type="password"
     {...constraints}

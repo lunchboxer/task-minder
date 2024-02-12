@@ -26,7 +26,7 @@ const schema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),
   password: z.string().min(4),
 })
-export const load = async ({ locals }) => {
+export const load = async () => {
   const form = await superValidate(schema)
   return { form }
 }
