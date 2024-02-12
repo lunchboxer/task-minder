@@ -38,6 +38,7 @@ export const actions = {
     if (!form.valid) {
       return fail(400, { form })
     }
+
     const { username, password } = form.data
     const user = await db
       .select({ id: users.id, password: users.password })
@@ -65,6 +66,6 @@ export const actions = {
     // const { password: _, ...cleanUser } = user[0]
     // return json({ user: cleanUser })
 
-    redirect(307, '/')
+    redirect(302, '/')
   },
 }

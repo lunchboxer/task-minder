@@ -7,6 +7,7 @@
   export let label = ''
   export let type = 'text'
   export let constraints = {}
+  export let autocomplete = 'off'
 
   let showPassword = false
 
@@ -14,17 +15,19 @@
     showPassword = !showPassword
   }
 
-  $: name = label
+  $: id = label
     .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
     .replaceAll(/[\s_]+/g, '-')
     .toLowerCase()
 </script>
 
-<label for={name} class:error={!!errors}>{label}</label>
+<label for={id} class:error={!!errors}>{label}</label>
 {#if type === 'password'}
   {#if showPassword}
     <input
-      {name}
+      {id}
+      {autocomplete}
+      name={id}
       type="text"
       class="password"
       bind:value
@@ -34,7 +37,9 @@
     />
   {:else}
     <input
-      {name}
+      {id}
+      name={id}
+      {autocomplete}
       class="password"
       type="password"
       bind:value
@@ -59,7 +64,9 @@
   </span>
 {:else}
   <input
-    {name}
+    name={id}
+    {id}
+    {autocomplete}
     type="text"
     bind:value
     class:error={!!errors}

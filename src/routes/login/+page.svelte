@@ -12,10 +12,16 @@
 
   <form method="post" use:enhance on:reset={reset}>
     <div class="field-group">
-      <TextInput bind:value={$form.username} errors={$errors.username} label="Username" />
+      <TextInput
+        bind:value={$form.username}
+        errors={$errors.username}
+        label="Username"
+        autocomplete="username"
+      />
       <TextInput
         type="password"
         label="Password"
+        autocomplete="current-password"
         bind:value={$form.password}
         errors={$errors.password}
       />
