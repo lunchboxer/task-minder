@@ -61,13 +61,18 @@
   .dropdown-content {
     display: none;
     position: absolute;
-    top: 2rem;
+    top: 3rem;
     right: 0;
     padding: 0;
     min-width: 150px;
-    background-color: var(--contrastier-bg-color);
+    background-color: var(--contrast-bg-color);
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+  }
+  @media (min-width: 576px) {
+    .dropdown-content {
+      top: 2.5rem;
+    }
   }
 
   .dropdown-content.show {

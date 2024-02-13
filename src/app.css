@@ -3,9 +3,9 @@
   src:
     local('JetBrainsMono-Thin'),
     local('JetBrains Mono Thin'),
-    url('fonts/JetBrainsMono-Thin.woff2') format('woff2'),
-    url('fonts/JetBrainsMono-Thin.woff') format('woff'),
-    url('fonts/JetBrainsMono-Thin.ttf') format('truetype');
+    url('/fonts/JetBrainsMono-Thin.woff2') format('woff2'),
+    url('/fonts/JetBrainsMono-Thin.woff') format('woff'),
+    url('/fonts/JetBrainsMono-Thin.ttf') format('truetype');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
@@ -16,9 +16,9 @@
   src:
     local('JetBrainsMono Extra-bold'),
     local('JetBrains Mono Extra-bold'),
-    url('fonts/JetBrainsMono-ExtraBold.woff2') format('woff2'),
-    url('fonts/JetBrainsMono-ExtraBold.woff') format('woff'),
-    url('fonts/JetBrainsMono-ExtraBold.ttf') format('truetype');
+    url('/fonts/JetBrainsMono-ExtraBold.woff2') format('woff2'),
+    url('/fonts/JetBrainsMono-ExtraBold.woff') format('woff'),
+    url('/fonts/JetBrainsMono-ExtraBold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -428,7 +428,7 @@ h5,
 h6 {
   text-wrap: balance;
   margin-top: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-weight: 100;
   line-height: 1.3;
 }
@@ -515,7 +515,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--contrast-bg-color);
+  background-color: var(--contrastier-bg-color);
   padding-left: 1rem;
   height: 4rem;
   box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
@@ -550,6 +550,18 @@ p.error {
 .center-card {
   max-width: 400px;
   margin: 0 auto;
+}
+
+.center-card h1 {
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: var(--contrast-bg-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
+  margin: 1rem 0;
 }
 
 @media (min-width: 576px) {
