@@ -230,8 +230,8 @@ button,
 input[type='reset'],
 input[type='button'],
 input[type='submit'] {
-  padding: 0.8rem 2rem;
-  font-size: 0.8rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
   font-family: var(--font-family);
   border: 1px solid var(--primary-color);
   border-radius: 0.5rem;
@@ -557,10 +557,10 @@ p.error {
 }
 
 .card {
-  background-color: var(--contrast-bg-color);
+  /* background-color: var(--contrast-bg-color); */
   border-radius: 0.5rem;
   padding: 1rem;
-  box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
+  box-shadow: 1px 2px 0.2rem 0.1rem var(--contrastier-bg-color);
   margin: 1rem 0;
 }
 

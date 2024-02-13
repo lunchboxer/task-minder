@@ -1,10 +1,15 @@
 <script>
+  import { page } from '$app/stores'
   import { superForm } from 'sveltekit-superforms/client'
   import TextInput from '$lib/text-input.svelte'
 
   export let data
 
   const { form, enhance, errors, reset } = superForm(data.form)
+  const getLoginPath = () => {
+    const returnTo = $page?.url?.searchParams?.get('returnTo')
+    return returnTo ? `/login?returnTo=${returnTo}` : '/login'
+  }
 </script>
 
 <div class="center-card">
@@ -21,7 +26,7 @@
         errors={$errors.password}
       />
     </div>
-    <p>Already have an account? <a href="/login">Log in</a></p>
+    <p>Already have an account? <a href={getLoginPath()}>Log in</a></p>
     <div class="button-group">
       <input type="reset" />
       <input type="submit" value="Register" />

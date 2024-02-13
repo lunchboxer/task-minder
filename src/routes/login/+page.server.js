@@ -1,13 +1,12 @@
+import { fail } from '@sveltejs/kit'
+import { db, users } from '$lib/data'
+import { loginSchema } from '$lib/schema'
+import { parseForm } from '$lib/utils'
 import { scryptSync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
-import { db, users } from '$lib/data/index'
-import { fail } from '@sveltejs/kit'
-import { redirect } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
-import { setError, superValidate } from 'sveltekit-superforms/server'
-import { z } from 'zod'
 
 const sign = createSigner({ key: JWT_SECRET })
 
@@ -22,25 +21,11 @@ const passwordMatches = (password, hash) => {
   return originalPassHash === currentPassHash
 }
 
-const schema = z.object({
-  username: z.string().min(1, { message: 'Username is required' }),
-  password: z.string().min(4),
-})
-
-export const load = async () => {
-  const form = await superValidate(schema)
-  return { form }
-}
-
 export const actions = {
   default: async ({ request, cookies }) => {
-    const form = await superValidate(request, schema)
-
-    if (!form.valid) {
-      return fail(400, { form })
-    }
-
-    const { username, password } = form.data
+    const formData = await parseForm(loginSchema, request)
+    if (formData.errors) return fail(400, formData)
+    const { username, password } = formData
     const user = await db
       .select({ id: users.id, password: users.password })
       .from(users)
@@ -48,10 +33,16 @@ export const actions = {
       .limit(1)
 
     if (user && user.length === 0) {
-      return setError(form, 'username', 'Username not found.')
+      return fail(400, {
+        ...formData,
+        errors: { username: 'Username not found.' },
+      })
     }
     if (!passwordMatches(password, user[0].password)) {
-      return setError(form, 'password', 'Invalid password')
+      return fail(400, {
+        ...formData,
+        errors: { password: 'Invalid password.' },
+      })
     }
 
     const token = sign({ userId: user[0].id })
@@ -64,9 +55,7 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    // const { password: _, ...cleanUser } = user[0]
-    // return json({ user: cleanUser })
-
-    redirect(302, '/')
+    const { password: _, ...cleanUser } = user[0]
+    return { success: true, user: cleanUser }
   },
 }

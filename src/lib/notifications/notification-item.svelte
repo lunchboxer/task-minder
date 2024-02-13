@@ -1,88 +1,63 @@
 <script>
+  import { Fa } from 'svelte-fa'
+  import {
+    faTriangleExclamation,
+    faCircleCheck,
+    faCircleExclamation,
+  } from '@fortawesome/free-solid-svg-icons'
+  import { notifications } from './data'
   export let message
+  export let id
 
   $: text = !message || typeof message === 'string' ? message : message.text
-  $: type = !message || typeof message === 'string' ? undefined : message.type
+  $: type = !message || typeof message === 'string' ? 'info' : message.type
+
+  function remove() {
+    notifications.remove(id)
+  }
 </script>
 
-<div
-  class="alert shadow-lg"
-  class:alert-info={type === 'info'}
-  class:alert-success={type === 'success'}
-  class:alert-warning={type === 'warning'}
-  class:alert-error={type === 'error'}
->
-  <div>
-    {#if !type}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="stroke-info h-6 w-6 flex-shrink-0"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    {/if}
-    {#if type === 'warning'}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 flex-shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-        />
-      </svg>
-    {/if}
-    {#if type === 'success'}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 flex-shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    {/if}
-    {#if type === 'info'}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="h-6 w-6 flex-shrink-0 stroke-current"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    {/if}
-    {#if type === 'error'}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 flex-shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    {/if}
-    <span>{text}</span>
-  </div>
+<div class="notification is-{type}">
+  <button class="icon" on:click={remove}>
+    <Fa
+      icon={type === 'error'
+        ? faTriangleExclamation
+        : type === 'success'
+          ? faCircleCheck
+          : faCircleExclamation}
+    />
+  </button>
+  <span class="text">{text}</span>
 </div>
+
+<style>
+  .notification {
+    display: flex;
+    align-items: center;
+    background-color: var(--contrastier-bg-color);
+    border-radius: 0.5rem;
+    /* padding: 1rem; */
+    min-height: 2rem;
+    /* padding: 0.5rem 0; */
+    position: relative;
+    color: var(--primary-color);
+  }
+  .icon {
+    all: unset;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    text-align: center;
+    font-weight: 800;
+  }
+  .text {
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+  }
+  .is-success {
+    color: var(--success-color);
+  }
+  .is-info {
+    color: var(--primary-color);
+  }
+  .is-error {
+    color: var(--error-color);
+  }
+</style>
