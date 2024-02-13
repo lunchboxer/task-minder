@@ -32,7 +32,7 @@
       class="password"
       bind:value
       class:error={!!errors}
-      aria-invalid={!!errors}
+      aria-invalid={errors ? 'true' : undefined}
       {...constraints}
     />
   {:else}
@@ -44,7 +44,7 @@
       type="password"
       bind:value
       class:error={!!errors}
-      aria-invalid={!!errors}
+      aria-invalid={errors ? 'true' : undefined}
       {...constraints}
     />
   {/if}
@@ -70,7 +70,7 @@
     type="text"
     bind:value
     class:error={!!errors}
-    aria-invalid={errors ? 'true' : 'false'}
+    aria-invalid={errors ? 'true' : undefined}
     {...constraints}
   />
 {/if}

@@ -207,7 +207,7 @@ pre {
   font-size: 1rem;
 }
 
-pre > code {
+pre>code {
   border-radius: 0;
   white-space: pre;
   display: block;
@@ -340,8 +340,7 @@ textarea {
 }
 
 select {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="30"><path fill="%23d1d1d1" d="M0,0l6,8l6-8"/></svg>')
-    center right no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="30"><path fill="%23d1d1d1" d="M0,0l6,8l6-8"/></svg>') center right no-repeat;
   background-color: var(--contrast-bg-color);
   padding-right: 3rem;
   cursor: pointer;
@@ -518,7 +517,7 @@ header {
   align-items: center;
   background-color: var(--contrast-bg-color);
   padding-left: 1rem;
-  height: 3rem;
+  height: 4rem;
   box-shadow: 0 0 0.2rem 0.1rem var(--contrastier-bg-color);
 }
 
@@ -549,18 +548,15 @@ p.error {
 }
 
 .center-card {
-  position: fixed;
-  width: 400px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 @media (min-width: 576px) {
   header {
     padding-left: 2rem;
     padding-right: 1rem;
+    height: 3.5rem;
   }
 
   table {
