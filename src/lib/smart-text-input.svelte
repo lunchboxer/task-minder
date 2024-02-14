@@ -2,17 +2,14 @@
   import { Fa } from 'svelte-fa'
   import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
   import { page } from '$app/stores'
+  import { camelCase } from '$lib/utils'
 
   export let label = ''
   export let name = ''
 
-  const id =
-    name ||
-    label
-      .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
-      .replaceAll(/[\s_]+/g, '-')
-      .toLowerCase()
+  const id = name || camelCase(label)
 
+  export let required = false
   export let error = ''
   export let type = 'text'
   export let constraints = {}
@@ -32,8 +29,9 @@
       {id}
       {autocomplete}
       name={id}
-      type="text"
+      {type}
       class="password"
+      {required}
       value={$page?.form?.[id] ?? ''}
       class:error={$page?.form?.errors?.[id] || error}
       aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
@@ -46,6 +44,7 @@
       {autocomplete}
       class="password"
       type="password"
+      {required}
       value={$page?.form?.[id] ?? ''}
       class:error={$page?.form?.errors?.[id] || error}
       aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
@@ -71,7 +70,8 @@
     name={id}
     {id}
     {autocomplete}
-    type="text"
+    {type}
+    {required}
     value={$page?.form?.[id] ?? ''}
     class:error={$page?.form?.errors?.[id] || error}
     aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}

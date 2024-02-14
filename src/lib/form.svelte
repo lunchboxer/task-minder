@@ -10,6 +10,7 @@
   export let method = 'post'
   export let successMessage = 'Form processed successfully'
   export let successUrl = ''
+  export let action
 
   let formComponent
   let restart = 1
@@ -18,12 +19,11 @@
   const reset = () => {
     ++restart
     formComponent.reset()
-    // form = {}
     formComponent.setAttribute('isValid', true)
     invalidateAll()
   }
 
-  const action = () => {
+  const submitHandler = () => {
     loading = true
     return async ({ result, update }) => {
       loading = false
@@ -47,7 +47,7 @@
 </script>
 
 <div class="container">
-  <form {method} use:enhance={action} on:reset={reset} bind:this={formComponent}>
+  <form {method} use:enhance={submitHandler} {action} on:reset={reset} bind:this={formComponent}>
     {#key restart}
       <slot />
     {/key}
