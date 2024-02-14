@@ -1,49 +1,21 @@
 <script>
-  import { enhance } from '$app/forms'
-  import TextInput from '$lib/text-input.svelte'
-  import { notifications } from '$lib/notifications'
-  import { goto } from '$app/navigation'
+  import SmartTextInput from '$lib/smart-text-input.svelte'
   import { page } from '$app/stores'
+  import Form from '$lib/form.svelte'
 
-  export let form
+  const returnTo = $page?.url?.searchParams?.get('returnTo')
 
-  $: if (form?.success) {
-    const returnTo = $page?.url?.searchParams?.get('returnTo')
-    notifications.add({
-      type: 'success',
-      text: 'Login successful',
-    })
-    goto(returnTo || '/')
-  }
-
-  const getRegisterPath = () => {
-    const returnTo = $page?.url?.searchParams?.get('returnTo')
-    return returnTo ? `/register?returnTo=${returnTo}` : '/register'
-  }
+  const getRegisterPath = () => (returnTo ? `/register?returnTo=${returnTo}` : '/register')
 </script>
 
 <div class="center-card">
   <h1>Login required</h1>
-  <form method="POST" use:enhance>
-    <TextInput
-      value={form?.username}
-      errors={form?.errors?.username}
-      label="Username"
-      autocomplete="username"
-    />
-    <TextInput
-      value={form?.password}
-      type="password"
-      label="Password"
-      autocomplete="current-password"
-      errors={form?.errors?.password}
-    />
+
+  <Form submitLabel="Log in" successMessage="Login successful" successUrl={returnTo || '/'}>
+    <SmartTextInput label="Username" autocomplete="username" />
+    <SmartTextInput label="Password" type="password" autocomplete="current-password" />
     <p>
       Don't have an account? <a href={getRegisterPath()}> Register </a>
     </p>
-    <div class="button-group">
-      <input type="reset" />
-      <input type="submit" value="Log in" />
-    </div>
-  </form>
+  </Form>
 </div>

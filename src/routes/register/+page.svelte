@@ -1,35 +1,25 @@
 <script>
+  import Form from '$lib/form.svelte'
+  import SmartTextInput from '$lib/smart-text-input.svelte'
   import { page } from '$app/stores'
-  import { superForm } from 'sveltekit-superforms/client'
-  import TextInput from '$lib/text-input.svelte'
 
-  export let data
+  const returnTo = $page?.url?.searchParams?.get('returnTo')
 
-  const { form, enhance, errors, reset } = superForm(data.form)
-  const getLoginPath = () => {
-    const returnTo = $page?.url?.searchParams?.get('returnTo')
-    return returnTo ? `/login?returnTo=${returnTo}` : '/login'
-  }
+  const getLoginPath = () => (returnTo ? `/login?returnTo=${returnTo}` : '/login')
 </script>
 
 <div class="center-card">
   <h1>Register</h1>
 
-  <form method="post" use:enhance on:reset={reset}>
-    <div class="field-group">
-      <TextInput label="Username" bind:value={$form.username} errors={$errors.username} />
-      <TextInput label="Name" bind:value={$form.name} errors={$errors.name} autocomplete="name" />
-      <TextInput
-        type="password"
-        label="Password"
-        bind:value={$form.password}
-        errors={$errors.password}
-      />
-    </div>
+  <Form
+    submitLabel="Register"
+    successMessage="Registration successful"
+    successUrl={returnTo || '/'}
+  >
+    <SmartTextInput label="Username" autocomplete="username" />
+    <SmartTextInput label="Name" autocomplete="name" />
+    <SmartTextInput type="password" label="Password" autocomplete="new-password" />
+
     <p>Already have an account? <a href={getLoginPath()}>Log in</a></p>
-    <div class="button-group">
-      <input type="reset" />
-      <input type="submit" value="Register" />
-    </div>
-  </form>
+  </Form>
 </div>

@@ -16,7 +16,7 @@
   {:else}
     <p>No school years yet.</p>
   {/if}
-  <a class="button" href="/school-years/add">Add school year</a>
+  <a class="button" href="/school-years">Edit/View school years</a>
 </div>
 
 <div class="card">
@@ -30,5 +30,5 @@
   {:else}
     <p>No groups yet.</p>
   {/if}
-  <a class="button" href="/groups/add">Add group</a>
+  <a class="button" href="/groups">Edit/View groups</a>
 </div>

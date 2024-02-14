@@ -28,7 +28,7 @@
       </button>
     {/if}
     <ul class="dropdown-content" class:show>
-      <li><span>Logged in as {me.name || me.username}</span></li>
+      <li><span>Logged in as {me.username}</span></li>
       {#if $page.url.pathname !== '/logout'}
         <li>
           <a href="/logout">Logout</a>

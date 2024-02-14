@@ -3,11 +3,10 @@ import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { db, users } from '$lib/data/index'
 import { fail } from '@sveltejs/kit'
-import { redirect } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
-import { setError, superValidate } from 'sveltekit-superforms/server'
-import { z } from 'zod'
+import { registerSchema } from '$lib/schema'
+import { parseForm } from '$lib/utils'
 
 const sign = createSigner({ key: JWT_SECRET })
 
@@ -19,26 +18,11 @@ const hashPassword = password => {
   return encryptPassword(password, salt) + salt
 }
 
-const schema = z.object({
-  username: z.string().min(1, { message: 'Username is required' }),
-  name: z.string(),
-  password: z.string().min(4),
-})
-
-export const load = async () => {
-  const form = await superValidate(schema)
-  return { form }
-}
-
 export const actions = {
   default: async ({ request, cookies }) => {
-    const form = await superValidate(request, schema)
-
-    if (!form.valid) {
-      return fail(400, { form })
-    }
-
-    const { username, name, password } = form.data
+    const formData = await parseForm(registerSchema, request)
+    if (formData.errors) return fail(400, formData)
+    const { username, name, password } = formData
     const usernameTaken = await db
       .select({ id: users.id })
       .from(users)
@@ -46,7 +30,10 @@ export const actions = {
       .limit(1)
 
     if (usernameTaken && usernameTaken.length > 0) {
-      return setError(form, 'username', 'Username already taken.')
+      return fail(400, {
+        ...formData,
+        errors: { username: 'Username already taken.' },
+      })
     }
 
     const newUser = await db
@@ -68,9 +55,7 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    // const { password: _, ...cleanUser } = user[0]
-    // return json({ user: cleanUser })
-
-    redirect(302, '/')
+    const { password: _, ...cleanUser } = newUser[0]
+    return { success: true, user: cleanUser }
   },
 }
