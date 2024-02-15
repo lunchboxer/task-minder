@@ -36,3 +36,11 @@ export const studentCreateSchema = z.object({
 export const studentUpdateSchema = studentCreateSchema.extend({
   id: z.string(),
 })
+
+export const subjectCreateSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }).max(60),
+})
+
+export const subjectUpdateSchema = subjectCreateSchema.extend({
+  id: z.string(),
+})

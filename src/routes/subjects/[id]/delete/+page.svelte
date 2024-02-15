@@ -2,7 +2,7 @@
   import DeleteThing from '$lib/delete-thing.svelte'
 
   export let data
-  const { student } = data
+  const { subject } = data
 </script>
 
-<DeleteThing thing={student} thingName="student" />
+<DeleteThing thing={subject} thingName="subject" />
