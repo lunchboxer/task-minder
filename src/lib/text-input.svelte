@@ -1,6 +1,7 @@
 <script>
   import { Fa } from 'svelte-fa'
   import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+  import { camelCase } from '$lib/utils'
 
   export let value = ''
   export let errors = ''
@@ -15,10 +16,7 @@
     showPassword = !showPassword
   }
 
-  $: id = label
-    .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
-    .replaceAll(/[\s_]+/g, '-')
-    .toLowerCase()
+  const id = camelCase(label)
 </script>
 
 <label for={id} class:error={!!errors}>{label}</label>
@@ -30,7 +28,7 @@
       name={id}
       type="text"
       class="password"
-      bind:value
+      {value}
       class:error={!!errors}
       aria-invalid={errors ? 'true' : undefined}
       {...constraints}
@@ -42,7 +40,7 @@
       {autocomplete}
       class="password"
       type="password"
-      bind:value
+      {value}
       class:error={!!errors}
       aria-invalid={errors ? 'true' : undefined}
       {...constraints}
@@ -68,7 +66,7 @@
     {id}
     {autocomplete}
     type="text"
-    bind:value
+    {value}
     class:error={!!errors}
     aria-invalid={errors ? 'true' : undefined}
     {...constraints}

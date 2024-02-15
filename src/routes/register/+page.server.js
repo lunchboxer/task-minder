@@ -2,11 +2,11 @@ import { randomBytes, scryptSync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { db, users } from '$lib/data/index'
+import { registerSchema } from '$lib/schema'
+import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
-import { registerSchema } from '$lib/schema'
-import { parseForm } from '$lib/utils'
 
 const sign = createSigner({ key: JWT_SECRET })
 

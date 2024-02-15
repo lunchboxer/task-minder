@@ -9,11 +9,13 @@
 
   const id = name || camelCase(label)
 
+  export let value = ''
   export let required = false
   export let error = ''
   export let type = 'text'
   export let constraints = {}
   export let autocomplete = 'off'
+  export let data = {}
 
   let showPassword = false
 
@@ -32,7 +34,7 @@
       {type}
       class="password"
       {required}
-      value={$page?.form?.[id] ?? ''}
+      value={$page?.form?.[id] ?? data?.[id] ?? value}
       class:error={$page?.form?.errors?.[id] || error}
       aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
       {...constraints}
@@ -45,7 +47,7 @@
       class="password"
       type="password"
       {required}
-      value={$page?.form?.[id] ?? ''}
+      value={$page?.form?.[id] ?? data?.[id] ?? value}
       class:error={$page?.form?.errors?.[id] || error}
       aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
       {...constraints}
@@ -72,7 +74,7 @@
     {autocomplete}
     {type}
     {required}
-    value={$page?.form?.[id] ?? ''}
+    value={$page?.form?.[id] ?? data?.[id] ?? value}
     class:error={$page?.form?.errors?.[id] || error}
     aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
     {...constraints}

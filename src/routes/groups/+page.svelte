@@ -1,10 +1,24 @@
 <script>
-  import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import Breadcrumbs from '$lib/breadcrumbs.svelte'
+
+  export let data
+  const { groups } = data
 </script>
 
-<h1>Add a group</h1>
+<Breadcrumbs crumbs={[{ name: 'Groups' }]} />
 
-<Form submitLabel="Create group" successMessage="Group created successfully">
-  <SmartTextInput label="Name" />
-</Form>
+<h1>Groups</h1>
+
+{#if groups?.length}
+  <ul>
+    {#each groups as group}
+      <li>
+        <a href="/groups/{group.id}">{group.name}</a>
+      </li>
+    {/each}
+  </ul>
+{:else}
+  <p>No groups yet.</p>
+{/if}
+
+<a class="button" href="/groups/add">Add group</a>

@@ -1,7 +1,7 @@
 import {
   db,
-  schoolYears as schoolYearModel,
   groups as groupModel,
+  schoolYears as schoolYearModel,
 } from '$lib/data'
 
 /** @type {import('./$types').LayoutServerLoad} */

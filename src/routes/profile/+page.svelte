@@ -1,6 +1,9 @@
 <script>
+  import Breadcrumbs from '$lib/breadcrumbs.svelte'
   export let data
 </script>
+
+<Breadcrumbs crumbs={[{ name: 'Profile' }]} />
 
 {#if data.me}
   <h1>User Profile</h1>

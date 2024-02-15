@@ -36,9 +36,7 @@
     align-items: center;
     background-color: var(--contrastier-bg-color);
     border-radius: 0.5rem;
-    /* padding: 1rem; */
     min-height: 2rem;
-    /* padding: 0.5rem 0; */
     position: relative;
     color: var(--primary-color);
   }

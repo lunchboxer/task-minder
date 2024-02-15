@@ -1,6 +1,5 @@
 import { relations, sql } from 'drizzle-orm'
 import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-// Database schema
 import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('users', {
@@ -126,6 +125,10 @@ export const schoolYearsRelations = relations(schoolYears, ({ many }) => ({
 }))
 
 export const subjects = sqliteTable('subjects', {
+  id: text('id')
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => nanoid(12)),
   name: text('name').notNull().unique(),
 })
 

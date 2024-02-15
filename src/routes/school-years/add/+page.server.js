@@ -4,7 +4,7 @@ import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 
 export const actions = {
-  add: async ({ request }) => {
+  default: async ({ request }) => {
     const formData = await parseForm(schoolYearCreateSchema, request)
     if (formData.errors) return fail(400, formData)
     const { name, startDate, endDate } = formData

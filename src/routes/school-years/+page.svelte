@@ -1,12 +1,17 @@
 <script>
-  import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  export let data
 </script>
 
-<h1>Add a school year</h1>
+<Breadcrumbs crumbs={[{ name: 'School years' }]} />
 
-<Form submitLabel="Add" action="?/add">
-  <SmartTextInput label="Name" />
-  <SmartTextInput label="Start date" type="date" />
-  <SmartTextInput label="End date" type="date" />
-</Form>
+<h1>School years</h1>
+{#if data.schoolYears}
+  {#each data.schoolYears as schoolYear}
+    <p>
+      <a href="/school-years/{schoolYear.id}">"{schoolYear.name}"</a> : {schoolYear.startDate} to {schoolYear.endDate}
+    </p>
+  {/each}
+{/if}
+
+<a class="button" href="/school-years/add">Add school year</a>
