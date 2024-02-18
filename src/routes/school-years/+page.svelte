@@ -14,4 +14,4 @@
   {/each}
 {/if}
 
-<a class="button" href="/school-years/add">Add school year</a>
+<a class="btn" href="/school-years/add">Add school year</a>

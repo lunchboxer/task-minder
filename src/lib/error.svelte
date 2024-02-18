@@ -1,4 +1,5 @@
 <script>
+  import Alert from '$lib/alert.svelte'
   export let errors = ''
   const getMessage = (errors) => {
     if (!errors) return false
@@ -9,7 +10,5 @@
 </script>
 
 {#if getMessage(errors)}
-  <p class="alert error">
-    <span class="error-message"><strong>Error:</strong>&nbsp;{getMessage(errors)}</span>
-  </p>
+  <Alert type="error" message={getMessage(errors)} />
 {/if}

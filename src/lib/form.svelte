@@ -2,8 +2,6 @@
   import { enhance } from '$app/forms'
   import { notifications } from '$lib/notifications'
   import { goto, invalidateAll } from '$app/navigation'
-  import { Fa } from 'svelte-fa'
-  import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
   import Error from './error.svelte'
 
   export let submitLabel = 'Submit'
@@ -12,6 +10,8 @@
   export let successMessage = 'Form processed successfully'
   export let successUrl = ''
   export let action = ''
+  export let onReset = () => {}
+  export let onSuccess = () => {}
 
   let formComponent
   let restart = 1
@@ -24,6 +24,7 @@
     formComponent.reset()
     formComponent.setAttribute('isValid', true)
     invalidateAll()
+    onReset()
   }
 
   const submitHandler = () => {
@@ -46,13 +47,14 @@
           text: successMessage,
         })
         if (successUrl) goto(successUrl)
+        onSuccess()
         // invalidateAll()
       }
     }
   }
 </script>
 
-<div class="container">
+<div class="container max-w-md">
   <Error {errors} />
   <form
     {method}
@@ -61,44 +63,23 @@
     on:reset|preventDefault={reset}
     bind:this={formComponent}
   >
-    {#key restart}
-      <slot />
-    {/key}
-    <div class="button-group">
+    <div class="form-items">
+      {#key restart}
+        <slot />
+      {/key}
+    </div>
+    <div class="button-group justify-end flex flex-wrap py-4">
       <slot name="buttons">
-        <input type="reset" value={resetLabel} />
-        <input type="submit" value={submitLabel} />
+        <input class="btn grow" type="reset" value={resetLabel} />
+        <button class="btn btn-success grow" disabled={loading} type="submit">
+          {#if loading}
+            <span class="loading loading-spinner"></span>
+            loading
+          {:else}
+            {submitLabel}
+          {/if}
+        </button>
       </slot>
     </div>
   </form>
-  {#if loading}
-    <div class="overlay">
-      <p>Loading</p>
-      <div class="spinner">
-        <Fa icon={faCircleNotch} spin />
-      </div>
-    </div>
-  {/if}
 </div>
-
-<style>
-  .container {
-    position: relative;
-  }
-  .overlay {
-    color: var(--primary-color);
-    font-size: 1.4rem;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    opacity: 0.7;
-    background-color: var(--background-color);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-</style>

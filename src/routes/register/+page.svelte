@@ -1,6 +1,6 @@
 <script>
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
   import { page } from '$app/stores'
 
   const returnTo = $page?.url?.searchParams?.get('returnTo')
@@ -16,9 +16,9 @@
     successMessage="Registration successful"
     successUrl={returnTo || '/'}
   >
-    <SmartTextInput label="Username" autocomplete="username" />
-    <SmartTextInput label="Name" autocomplete="name" />
-    <SmartTextInput type="password" label="Password" autocomplete="new-password" />
+    <TextInput label="Username" autocomplete="username" />
+    <TextInput label="Name" autocomplete="name" />
+    <TextInput type="password" label="Password" autocomplete="new-password" />
 
     <p>Already have an account? <a href={getLoginPath()}>Log in</a></p>
   </Form>

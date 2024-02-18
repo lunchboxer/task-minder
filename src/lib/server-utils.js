@@ -27,13 +27,32 @@ export const deleteAction = async (request, model) => {
   return { success: true }
 }
 
-export const addAction = async (request, model, validationSchema) => {
+export const addAction = async (
+  request,
+  model,
+  validationSchema,
+  otherValidations,
+) => {
   const formData = await parseForm(validationSchema, request)
   if (formData.errors) return fail(400, formData)
-  const result = await db.insert(model).values(formData)
-  if (result.changes === 0)
+  try {
+    if (otherValidations && otherValidations.length > 0) {
+      for (const validation of otherValidations) {
+        const result = await validation(formData)
+        if (result) return fail(400, result)
+      }
+    }
+    const result = await db.insert(model).values(formData)
+    if (result.changes === 0)
+      return fail(500, {
+        errors: { all: 'New record was not added to database.' },
+      })
+    return { success: true }
+  } catch (error) {
+    dev && console.error(error)
+    console.info('caught')
     return fail(500, {
       errors: { all: 'New record was not added to database.' },
     })
-  return { success: true }
+  }
 }

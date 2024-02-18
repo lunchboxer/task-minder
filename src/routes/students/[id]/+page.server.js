@@ -1,6 +1,6 @@
 import { db, students } from '$lib/data'
 import { studentUpdateSchema } from '$lib/schema'
-import { parseForm } from '$lib/server-utils'
+import { parseForm, deleteAction } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 
@@ -15,7 +15,8 @@ export async function load({ params }) {
 }
 
 export const actions = {
-  default: async ({ request }) => {
+  delete: async ({ request }) => deleteAction(request, students),
+  update: async ({ request }) => {
     const formData = await parseForm(studentUpdateSchema, request)
     if (formData.errors) return fail(400, formData)
     const result = await db

@@ -1,88 +1,108 @@
 <script>
   import { Fa } from 'svelte-fa'
   import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+  import { page } from '$app/stores'
   import { camelCase } from '$lib/utils'
 
-  export let value = ''
-  export let errors = ''
   export let label = ''
+  export let name = ''
+  export let description = ''
+
+  const id = name || camelCase(label)
+  const descriptionId = `description-${id}`
+
+  export let value = ''
+  export let required = false
+  export let error = ''
   export let type = 'text'
   export let constraints = {}
   export let autocomplete = 'off'
+  export let data = {}
 
   let showPassword = false
 
   function showHidePassword() {
     showPassword = !showPassword
   }
-
-  const id = camelCase(label)
 </script>
 
-<label for={id} class:error={!!errors}>{label}</label>
-{#if type === 'password'}
-  {#if showPassword}
-    <input
-      {id}
-      {autocomplete}
-      name={id}
-      type="text"
-      class="password"
-      {value}
-      class:error={!!errors}
-      aria-invalid={errors ? 'true' : undefined}
-      {...constraints}
-    />
+<label for={id} class="form-control w-full max-w-md mb-4">
+  <div class="label">
+    <span class="label-text">{label}</span>
+    <span class="label-text-alt error-text">{$page?.form?.errors?.[id] || error}</span>
+  </div>
+  {#if type === 'password'}
+    <div
+      class="input input-bordered flex items-center gap-2"
+      class:input-error={$page?.form?.errors?.[id] || error}
+    >
+      {#if showPassword}
+        <input
+          {id}
+          {autocomplete}
+          name={id}
+          {type}
+          class="grow"
+          {required}
+          value={$page?.form?.[id] ?? data?.[id] ?? value}
+          aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
+          {...constraints}
+        />
+      {:else}
+        <input
+          {id}
+          name={id}
+          {autocomplete}
+          class="grow"
+          type="password"
+          {required}
+          value={$page?.form?.[id] ?? data?.[id] ?? value}
+          aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
+          {...constraints}
+        />
+      {/if}
+
+      <span
+        tabindex="0"
+        role="switch"
+        aria-checked={showPassword}
+        aria-describedby="password"
+        class="reset"
+        on:click={showHidePassword}
+        on:keydown={(event) => event.key === 'Enter' && showHidePassword()}
+      >
+        <Fa icon={showPassword ? faEyeSlash : faEye} class="inline" />
+      </span>
+    </div>
   {:else}
     <input
-      {id}
       name={id}
+      {id}
       {autocomplete}
-      class="password"
-      type="password"
-      {value}
-      class:error={!!errors}
-      aria-invalid={errors ? 'true' : undefined}
+      {type}
+      {required}
+      class="input input-bordered w-full"
+      value={$page?.form?.[id] ?? data?.[id] ?? value}
+      class:input-error={$page?.form?.errors?.[id] || error}
+      aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
       {...constraints}
     />
   {/if}
 
-  <span class="show-hide">
-    <span
-      tabindex="0"
-      role="switch"
-      aria-checked={showPassword}
-      aria-describedby="password"
-      class="reset"
-      on:click={showHidePassword}
-      on:keydown={(event) => event.key === 'Enter' && showHidePassword()}
-    >
-      <Fa icon={showPassword ? faEyeSlash : faEye} class="inline" />
-    </span>
-  </span>
-{:else}
-  <input
-    name={id}
-    {id}
-    {autocomplete}
-    type="text"
-    {value}
-    class:error={!!errors}
-    aria-invalid={errors ? 'true' : undefined}
-    {...constraints}
-  />
-{/if}
-<p class="error">
-  {#if errors}
-    ! {errors}
-  {:else}
-    &nbsp;
+  {#if description}
+    <label class="label" for={name}>
+      <span class="label-text-alt help-text" id={descriptionId}>
+        {description}
+      </span>
+    </label>
   {/if}
-</p>
+</label>
 
 <style>
-  .show-hide {
-    cursor: pointer;
-    margin-left: -2.3rem;
+  .error-text {
+    color: oklch(var(--er));
+  }
+  .help-text {
+    color: oklch(var(--in));
   }
 </style>

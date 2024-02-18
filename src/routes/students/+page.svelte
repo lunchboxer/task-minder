@@ -19,4 +19,4 @@
   <p>No students yet.</p>
 {/if}
 
-<a href="/students/add" class="button">Add student</a>
+<a href="/students/add" class="btn">Add student</a>

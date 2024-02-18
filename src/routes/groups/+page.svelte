@@ -21,4 +21,4 @@
   <p>No groups yet.</p>
 {/if}
 
-<a class="button" href="/groups/add">Add group</a>
+<a class="btn" href="/groups/add">Add group</a>

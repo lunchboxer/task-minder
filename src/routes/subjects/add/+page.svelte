@@ -1,7 +1,7 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
 </script>
 
 <Breadcrumbs crumbs={[{ href: '/subjects', name: 'Subjects' }, { name: 'Add' }]} />
@@ -12,6 +12,7 @@
   submitLabel="Create subject"
   successMessage="Subject added successfully"
   successUrl="/subjects"
+  action="?/create"
 >
-  <SmartTextInput label="Name" />
+  <TextInput label="Name" />
 </Form>

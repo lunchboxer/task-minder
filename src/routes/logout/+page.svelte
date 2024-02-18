@@ -1,28 +1,20 @@
 <script>
+  import Form from '$lib/form.svelte'
   import { goto } from '$app/navigation'
-  import { enhance } from '$app/forms'
-  import { notifications } from '$lib/notifications'
-
-  export let form
 
   const reset = () => {
     goto('/')
   }
-
-  $: if (form?.success) {
-    notifications.add({
-      type: 'success',
-      text: 'Logout successful',
-    })
-    reset()
-  }
 </script>
 
-<div class="center-card">
+<div class="container mx-auto max-w-md">
   <h1>Log out</h1>
   <p>We are going to miss you.</p>
-  <form method="POST" on:reset={reset} use:enhance>
-    <input type="reset" value="Nevermind" />
-    <input type="submit" value="Get me out of here" />
-  </form>
+  <Form
+    submitLabel="Get me out of here"
+    resetLabel="Nevermind"
+    successMessage="Logout successful"
+    successUrl="/login"
+    on:reset={reset}
+  />
 </div>

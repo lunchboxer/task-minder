@@ -1,7 +1,7 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
 
   export let data
   const { groupId, groups } = data
@@ -14,10 +14,10 @@
 
 <Form submitLabel="Update" action="?/update" successUrl="/groups">
   <input type="hidden" name="id" value={group?.id} />
-  <SmartTextInput label="Name" data={group} />
-  <SmartTextInput label="Grade" data={group} />
+  <TextInput label="Name" data={group} />
+  <TextInput label="Grade" data={group} />
 </Form>
 
 <hr />
 
-<a class="button" href="/groups/{group.id}/delete">Delete "{group.name}"</a>
+<a class="btn" href="/groups/{group.id}/delete">Delete "{group.name}"</a>

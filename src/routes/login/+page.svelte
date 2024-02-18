@@ -1,5 +1,5 @@
 <script>
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
   import { page } from '$app/stores'
   import Form from '$lib/form.svelte'
 
@@ -12,8 +12,8 @@
   <h1>Login required</h1>
 
   <Form submitLabel="Log in" successMessage="Login successful" successUrl={returnTo || '/'}>
-    <SmartTextInput label="Username" autocomplete="username" />
-    <SmartTextInput label="Password" type="password" autocomplete="current-password" />
+    <TextInput label="Username" autocomplete="username" />
+    <TextInput label="Password" type="password" autocomplete="current-password" />
     <p>
       Don't have an account? <a href={getRegisterPath()}> Register </a>
     </p>

@@ -1,11 +1,9 @@
 import { db, schoolYears } from '$lib/data'
 import { schoolYearUpdateSchema } from '$lib/schema'
-import { parseForm } from '$lib/server-utils'
+import { parseForm, deleteAction } from '$lib/server-utils'
 import { error } from '@sveltejs/kit'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
-
-// load schoolYear from db using id from params or return 404
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ({ params }) => {
@@ -20,6 +18,7 @@ export const load = async ({ params }) => {
 }
 
 export const actions = {
+  delete: async ({ request }) => deleteAction(request, schoolYears),
   update: async ({ request }) => {
     const formData = await parseForm(schoolYearUpdateSchema, request)
     if (formData.errors) return fail(400, formData)

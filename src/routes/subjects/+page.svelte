@@ -21,4 +21,4 @@
 
 <hr />
 
-<a href="/subjects/add" class="button">Add subject</a>
+<a href="/subjects/add" class="btn">Add subject</a>

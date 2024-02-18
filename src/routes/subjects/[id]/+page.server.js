@@ -1,4 +1,5 @@
 import { db, subjects } from '$lib/data'
+import { deleteAction } from '$lib/server-utils'
 import { subjectUpdateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
@@ -15,7 +16,8 @@ export async function load({ params }) {
 }
 
 export const actions = {
-  default: async ({ request }) => {
+  delete: async ({ request }) => deleteAction(request, subjects),
+  update: async ({ request }) => {
     const formData = await parseForm(subjectUpdateSchema, request)
     if (formData.errors) return fail(400, formData)
     const result = await db

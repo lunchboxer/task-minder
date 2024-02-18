@@ -1,7 +1,8 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
+  import DeleteModal from '$lib/delete-modal.svelte'
 
   export let data
   const { schoolYear } = data
@@ -15,11 +16,11 @@
 
 <Form submitLabel="Update" action="?/update" successUrl="/school-years">
   <input type="hidden" name="id" value={schoolYear?.id} />
-  <SmartTextInput label="Name" data={schoolYear} />
-  <SmartTextInput label="Start date" type="date" data={schoolYear} />
-  <SmartTextInput label="End date" type="date" data={schoolYear} />
+  <TextInput label="Name" data={schoolYear} />
+  <TextInput label="Start date" type="date" data={schoolYear} />
+  <TextInput label="End date" type="date" data={schoolYear} />
 </Form>
 
 <hr />
 
-<a class="button" href="{schoolYear?.id}/delete">Delete "{schoolYear?.name}"</a>
+<DeleteModal thing={schoolYear} thingName="school year" />

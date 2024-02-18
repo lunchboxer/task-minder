@@ -1,6 +1,6 @@
 <script>
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
 </script>
 
@@ -12,8 +12,8 @@
 />
 
 <h1>Add a school year</h1>
-<Form submitLabel="Add" successUrl="/school-years">
-  <SmartTextInput label="Name" />
-  <SmartTextInput label="Start date" type="date" />
-  <SmartTextInput label="End date" type="date" />
+<Form submitLabel="Add" successUrl="/school-years" action="?/create">
+  <TextInput label="Name" />
+  <TextInput label="Start date" type="date" />
+  <TextInput label="End date" type="date" />
 </Form>

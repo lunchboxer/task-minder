@@ -2,7 +2,10 @@ import { z } from 'zod'
 
 export const loginSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }).max(18),
-  password: z.string().min(4).max(20),
+  password: z
+    .string()
+    .min(4, { message: 'Password is 4-20 characters' })
+    .max(20, { message: 'Password is 4-20 characters' }),
 })
 
 export const registerSchema = loginSchema.extend({

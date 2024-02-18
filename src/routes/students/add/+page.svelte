@@ -1,6 +1,6 @@
 <script>
   import Form from '$lib/form.svelte'
-  import SmartTextInput from '$lib/smart-text-input.svelte'
+  import TextInput from '$lib/text-input.svelte'
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
 </script>
 
@@ -12,6 +12,7 @@
   submitLabel="Create student"
   successMessage="Student created successfully"
   successUrl="/students"
+  action="?/create"
 >
-  <SmartTextInput label="Name" />
+  <TextInput label="Name" />
 </Form>

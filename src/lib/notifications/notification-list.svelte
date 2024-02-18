@@ -8,7 +8,7 @@
   <div class="notification-list">
     {#each Object.entries($notifications) as [id, message] (id)}
       <div transition:fly={{ x: 400, duration: 200 }}>
-        <NotificationItem {message} {id} />
+        <NotificationItem {message} />
       </div>
     {/each}
   </div>
@@ -18,11 +18,12 @@
   .notification-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     position: fixed;
-    bottom: 0.4rem;
-    right: 0.4rem;
+    bottom: 0;
+    right: 0;
     z-index: 1000;
-    max-width: 300px;
+    max-width: 100%;
+    gap: 0.2rem;
+    padding: 0.4rem;
   }
 </style>
