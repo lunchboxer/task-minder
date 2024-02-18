@@ -1,5 +1,6 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import SchoolYearAddForm from './school-year-add-form.svelte'
   export let data
 </script>
 
@@ -14,4 +15,4 @@
   {/each}
 {/if}
 
-<a class="btn" href="/school-years/add">Add school year</a>
+<SchoolYearAddForm />

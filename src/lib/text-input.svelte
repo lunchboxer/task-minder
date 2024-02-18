@@ -11,13 +11,13 @@
   const id = name || camelCase(label)
   const descriptionId = `description-${id}`
 
-  export let value = ''
   export let required = false
   export let error = ''
   export let type = 'text'
   export let constraints = {}
   export let autocomplete = 'off'
   export let data = {}
+  export let value = $page?.form?.[id] ?? data?.[id] ?? ''
 
   let showPassword = false
 
@@ -41,10 +41,10 @@
           {id}
           {autocomplete}
           name={id}
-          {type}
+          type="text"
           class="grow"
           {required}
-          value={$page?.form?.[id] ?? data?.[id] ?? value}
+          bind:value
           aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
           {...constraints}
         />
@@ -56,7 +56,7 @@
           class="grow"
           type="password"
           {required}
-          value={$page?.form?.[id] ?? data?.[id] ?? value}
+          bind:value
           aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
           {...constraints}
         />
@@ -71,7 +71,7 @@
         on:click={showHidePassword}
         on:keydown={(event) => event.key === 'Enter' && showHidePassword()}
       >
-        <Fa icon={showPassword ? faEyeSlash : faEye} class="inline" />
+        <Fa icon={showPassword ? faEye : faEyeSlash} class="inline" />
       </span>
     </div>
   {:else}

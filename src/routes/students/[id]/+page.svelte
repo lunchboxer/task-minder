@@ -18,7 +18,7 @@
   successUrl="/students"
   successMessage="Student record updated"
 >
-  <input type="hidden" name="id" value={student.id} />
+  <input type="hidden" name="id" value={student?.id} />
   <TextInput label="Name" data={student} />
 </Form>
 

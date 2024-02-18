@@ -25,7 +25,7 @@ export const schoolYearUpdateSchema = schoolYearCreateSchema.extend({
 export const groupCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   grade: z.string().min(1, { message: 'Grade is required' }),
-  schoolYearId: z.string().optional(),
+  schoolYearId: z.string().length(12).optional(),
 })
 
 export const groupUpdateSchema = groupCreateSchema.extend({

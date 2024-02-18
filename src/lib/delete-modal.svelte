@@ -4,8 +4,9 @@
 
   export let thing = {}
   export let thingName = '' // e.g. "student"
-  export let parentUrl = `/${toKebabCase(thingName)}s` // e.g. "/students"
+  export let parentUrl = thingName ? `/${toKebabCase(thingName)}s` : '/' // e.g. "/students"
 
+  console.log(parentUrl)
   let modal
 
   function capitalize(string) {
@@ -23,8 +24,8 @@
 
 <Modal heading="Are you sure?" message="This action cannot be undone." bind:modal>
   <Form
-    successUrl={parentUrl}
     action="?/delete"
+    successUrl={parentUrl}
     onReset={() => modal.close()}
     resetLabel="Cancel"
     submitLabel="Yes, delete {thing.name}"

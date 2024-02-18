@@ -18,3 +18,9 @@
     {/each}
   </ul>
 </nav>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>

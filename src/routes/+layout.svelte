@@ -6,6 +6,7 @@
   import { NotificationList } from '$lib/notifications'
   import LogoutModal from '$lib/logout-modal.svelte'
   import { theme, themeSwitcher } from '$lib/theme-switcher.svelte'
+  import { page } from '$app/stores'
 
   export let data
   let checked = ''
@@ -20,7 +21,9 @@
 <div class="drawer lg:drawer-open">
   <input id="drawer" type="checkbox" class="drawer-toggle" bind:checked />
   <div class="drawer-content max-w-[100vw] flex flex-col h-screen">
-    <Header me={data.me} bind:checked />
+    {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register'}
+      <Header me={data.me} bind:checked />
+    {/if}
     <main class="p-4 prose max-w-none md:px-16 flex-grow">
       <slot />
     </main>

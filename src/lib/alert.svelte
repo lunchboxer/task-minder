@@ -1,5 +1,4 @@
 <script>
-  import ErrorIcon from '$lib/icons/error-icon.svelte'
   import InfoIcon from '$lib/icons/info-icon.svelte'
   import SuccessIcon from '$lib/icons/success-icon.svelte'
   import WarningIcon from '$lib/icons/warning-icon.svelte'
@@ -19,7 +18,7 @@
   class:alert-warning={type === 'warning'}
 >
   {#if type === 'error'}
-    <ErrorIcon />
+    <WarningIcon />
   {:else if type === 'success'}
     <SuccessIcon />
   {:else if type === 'info'}

@@ -1,5 +1,6 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import SubjectAddForm from './subject-add-form.svelte'
   export let data
 </script>
 
@@ -21,4 +22,4 @@
 
 <hr />
 
-<a href="/subjects/add" class="btn">Add subject</a>
+<SubjectAddForm />

@@ -1,5 +1,7 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import StudentAddForm from './student-add-form.svelte'
+
   export let data
 </script>
 
@@ -19,4 +21,4 @@
   <p>No students yet.</p>
 {/if}
 
-<a href="/students/add" class="btn">Add student</a>
+<StudentAddForm />

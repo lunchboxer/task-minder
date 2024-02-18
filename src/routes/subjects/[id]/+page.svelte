@@ -10,7 +10,7 @@
 
 <Breadcrumbs crumbs={[{ name: 'Subjects', href: '/subjects' }, { name: subject?.name }]} />
 
-<h1>Edit subject "{subject.name}"</h1>
+<h1>Edit subject "{subject?.name}"</h1>
 
 <Form action="?/update" submitLabel="Update" successUrl="/subjects">
   <input type="hidden" name="id" value={subject?.id} />

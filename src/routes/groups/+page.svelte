@@ -1,8 +1,9 @@
 <script>
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import GroupAddForm from './group-add-form.svelte'
 
   export let data
-  const { groups } = data
+  $: groups = data?.groups
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Groups' }]} />
@@ -21,4 +22,4 @@
   <p>No groups yet.</p>
 {/if}
 
-<a class="btn" href="/groups/add">Add group</a>
+<GroupAddForm />

@@ -1,12 +1,9 @@
 <script>
-  import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import Form from '$lib/form.svelte'
   import TextInput from '$lib/text-input.svelte'
 </script>
 
-<Breadcrumbs crumbs={[{ href: '/subjects', name: 'Subjects' }, { name: 'Add' }]} />
-
-<h1>Add subject</h1>
+<h2>Add subject</h2>
 
 <Form
   submitLabel="Create subject"

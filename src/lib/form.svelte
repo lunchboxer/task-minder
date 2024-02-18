@@ -46,9 +46,8 @@
           type: 'success',
           text: successMessage,
         })
-        if (successUrl) goto(successUrl)
         onSuccess()
-        // invalidateAll()
+        if (successUrl) goto(successUrl)
       }
     }
   }
@@ -71,7 +70,7 @@
     <div class="button-group justify-end flex flex-wrap py-4">
       <slot name="buttons">
         <input class="btn grow" type="reset" value={resetLabel} />
-        <button class="btn btn-success grow" disabled={loading} type="submit">
+        <button class="btn btn-primary grow" disabled={loading} type="submit">
           {#if loading}
             <span class="loading loading-spinner"></span>
             loading

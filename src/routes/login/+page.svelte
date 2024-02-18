@@ -1,5 +1,6 @@
 <script>
   import TextInput from '$lib/text-input.svelte'
+  import TrayIcon from '$lib/icons/tray-icon.svelte'
   import { page } from '$app/stores'
   import Form from '$lib/form.svelte'
 
@@ -8,8 +9,13 @@
   const getRegisterPath = () => (returnTo ? `/register?returnTo=${returnTo}` : '/register')
 </script>
 
-<div class="center-card">
-  <h1>Login required</h1>
+<div class="mx-auto max-w-md">
+  <div class="text-primary flex flex-col items-center pt-8">
+    <h1 class="text-4xl text-primary">Submitter</h1>
+    <span><TrayIcon size="48" /></span>
+  </div>
+  <hr />
+  <h2>Login required</h2>
 
   <Form submitLabel="Log in" successMessage="Login successful" successUrl={returnTo || '/'}>
     <TextInput label="Username" autocomplete="username" />
