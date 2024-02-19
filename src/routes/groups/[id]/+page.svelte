@@ -3,10 +3,10 @@
   import Form from '$lib/form.svelte'
   import TextInput from '$lib/text-input.svelte'
   import DeleteModal from '$lib/delete-modal.svelte'
+  import Select from '$lib/select.svelte'
 
   export let data
-  const { groupId, groups } = data
-  const group = groups?.find((group) => group.id === groupId)
+  $: group = data?.group
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Groups', href: '/groups' }, { name: group?.name }]} />
@@ -17,6 +17,12 @@
   <input type="hidden" name="id" value={group?.id} />
   <TextInput label="Name" data={group} />
   <TextInput label="Grade" data={group} />
+  <Select
+    label="School Year"
+    name="schoolYearId"
+    options={data?.schoolYears.map((s) => ({ label: s.name, value: s.id }))}
+    selected={group?.schoolYearId}
+  />
 </Form>
 
 <hr />

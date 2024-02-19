@@ -26,7 +26,7 @@ export const actions = {
     const usernameTaken = await db
       .select({ id: users.id })
       .from(users)
-      .where(eq(users.username, username.toLowerCase()))
+      .where(eq(users.username, username))
       .limit(1)
 
     if (usernameTaken && usernameTaken.length > 0) {
@@ -39,7 +39,7 @@ export const actions = {
     const newUser = await db
       .insert(users)
       .values({
-        username: username.toLowerCase(),
+        username,
         name,
         password: hashPassword(password),
       })

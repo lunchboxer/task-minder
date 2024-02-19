@@ -29,7 +29,7 @@ export const actions = {
     const user = await db
       .select({ id: users.id, password: users.password })
       .from(users)
-      .where(eq(users.username, username.toLowerCase()))
+      .where(eq(users.username, username))
       .limit(1)
 
     if (user && user.length === 0) {

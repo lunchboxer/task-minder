@@ -10,6 +10,7 @@ export const users = sqliteTable('users', {
   username: text('username').notNull().unique(),
   name: text('name'),
   password: text('password').notNull(),
+  activeSchoolYear: text('active_school_year'),
   created: text('created').notNull().default(sql`CURRENT_TIMESTAMP`),
 })
 
@@ -38,7 +39,9 @@ export const groups = sqliteTable('groups', {
     .$defaultFn(() => nanoid(12)),
   name: text('name').notNull(),
   grade: text('grade').notNull(),
-  schoolYearId: text('school_year_id').references(() => schoolYears.id),
+  schoolYearId: text('school_year_id')
+    .references(() => schoolYears.id)
+    .notNull(),
   created: text('created').notNull().default(sql`CURRENT_TIMESTAMP`),
 })
 

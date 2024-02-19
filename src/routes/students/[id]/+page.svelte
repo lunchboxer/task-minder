@@ -8,7 +8,7 @@
   const { student } = data
 </script>
 
-<Breadcrumbs crumbs={[{ href: '/students', name: 'Students' }, { name: 'Add' }]} />
+<Breadcrumbs crumbs={[{ href: '/students', name: 'Students' }, { name: student?.name }]} />
 
 <h1>Edit student</h1>
 

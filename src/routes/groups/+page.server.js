@@ -5,7 +5,7 @@ import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 
 export const load = async () => {
-  const groups = await db.select().from(groupModel)
+  const groups = await db.select().from(groupModel).orderBy(groupModel.grade)
   return { groups }
 }
 export const actions = {

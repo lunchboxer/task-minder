@@ -1,15 +1,21 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  username: z.string().min(1, { message: 'Username is required' }).max(18),
+  username: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(1, { message: 'Username is required' })
+    .max(18),
   password: z
     .string()
+    .trim()
     .min(4, { message: 'Password is 4-20 characters' })
     .max(20, { message: 'Password is 4-20 characters' }),
 })
 
 export const registerSchema = loginSchema.extend({
-  name: z.string().max(60),
+  name: z.string().trim().max(60),
 })
 
 export const schoolYearCreateSchema = z.object({
@@ -25,7 +31,7 @@ export const schoolYearUpdateSchema = schoolYearCreateSchema.extend({
 export const groupCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   grade: z.string().min(1, { message: 'Grade is required' }),
-  schoolYearId: z.string().length(12).optional(),
+  schoolYearId: z.string().length(12),
 })
 
 export const groupUpdateSchema = groupCreateSchema.extend({
@@ -34,6 +40,7 @@ export const groupUpdateSchema = groupCreateSchema.extend({
 
 export const studentCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
+  groupId: z.string().length(12).optional(),
 })
 
 export const studentUpdateSchema = studentCreateSchema.extend({

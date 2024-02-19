@@ -6,7 +6,6 @@
   export let thingName = '' // e.g. "student"
   export let parentUrl = thingName ? `/${toKebabCase(thingName)}s` : '/' // e.g. "/students"
 
-  console.log(parentUrl)
   let modal
 
   function capitalize(string) {

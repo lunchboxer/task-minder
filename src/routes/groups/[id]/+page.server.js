@@ -5,9 +5,10 @@ import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 
-export function load({ params }) {
+export async function load({ params }) {
+  const group = await db.select().from(groups).where(eq(groups.id, params.id))
   return {
-    groupId: params.id,
+    group: group[0],
   }
 }
 

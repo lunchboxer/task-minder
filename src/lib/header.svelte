@@ -4,7 +4,7 @@
   export let checked
 </script>
 
-<header class="navbar w-full lg:hidden bg-base-200 z-50 sticky top-0 shadow-sm">
+<header class="navbar w-full lg:hidden bg-base-200 z-50 shadow-sm">
   <div class="navbar-start">
     {#if me?.id}
       <label

@@ -1,4 +1,5 @@
-import { db, students } from '$lib/data'
+import { db } from '$lib/data'
+import { students, studentsToGroups, groups } from '$lib/data/schema'
 import { studentUpdateSchema } from '$lib/schema'
 import { parseForm, deleteAction } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
@@ -9,8 +10,18 @@ export async function load({ params }) {
     .select()
     .from(students)
     .where(eq(students.id, params.id))
+  const studentGroups = await db
+    .select({
+      id: groups.id,
+      name: groups.name,
+      schoolYearId: groups.schoolYearId,
+    })
+    .from(studentsToGroups)
+    .where(eq(studentsToGroups.studentId, params.id))
+    .innerJoin(groups, eq(studentsToGroups.groupId, groups.id))
   return {
     student: student[0],
+    studentGroups,
   }
 }
 
