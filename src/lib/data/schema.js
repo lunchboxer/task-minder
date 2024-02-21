@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm'
-import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('users', {
@@ -24,6 +24,7 @@ export const students = sqliteTable('students', {
     .primaryKey()
     .$defaultFn(() => nanoid(12)),
   name: text('name').notNull(),
+  archived: integer('archived', { mode: 'boolean' }).notNull().default(0),
   created: text('created').notNull().default(sql`CURRENT_TIMESTAMP`),
 })
 

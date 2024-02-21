@@ -28,7 +28,7 @@
     {required}
     class="select select-bordered"
     value={$page?.form?.[id] ?? data?.[id] ?? selected ?? value}
-    class:input-error={$page?.form?.errors?.[id] || error}
+    class:select-error={$page?.form?.errors?.[id] || error}
     aria-invalid={$page?.form?.errors?.[id] || error ? 'true' : undefined}
   >
     {#each options as { label, value }}

@@ -1,22 +1,27 @@
 import { dev } from '$app/environment'
-import { groups as groupModel, db } from '$lib/data'
+import { db, groups as groupModel } from '$lib/data'
 import { groupCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
+import { eq } from 'drizzle-orm'
 
-export const load = async () => {
-  const groups = await db.select().from(groupModel).orderBy(groupModel.grade)
+export const load = async ({ locals }) => {
+  const groups = await db
+    .select()
+    .from(groupModel)
+    .where(eq(groupModel.schoolYearId, locals.user.activeSchoolYear))
+    .orderBy(groupModel.grade)
   return { groups }
 }
 export const actions = {
-  create: async ({ request }) => {
+  create: async ({ request, locals }) => {
     const formData = await parseForm(groupCreateSchema, request)
     if (formData.errors) return fail(400, formData)
     try {
       const result = await db.insert(groupModel).values({
         name: formData.name,
         grade: formData.grade,
-        schoolYearId: formData.schoolYearId,
+        schoolYearId: locals.user.activeSchoolYear,
       })
       if (result.changes === 0)
         return fail(500, {

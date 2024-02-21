@@ -1,9 +1,9 @@
-import { db } from '$lib/data'
 import { dev } from '$app/environment'
+import { db } from '$lib/data'
+import { students as studentModel, studentsToGroups } from '$lib/data/schema'
 import { studentCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { studentsToGroups, students as studentModel } from '$lib/data/schema'
 
 export async function load() {
   const students = await db

@@ -1,3 +1,7 @@
+<script>
+  export let data
+</script>
+
 <div class="container h-full mx-auto flex justify-center items-center">
   <div class="space-y-10 text-center flex flex-col items-center">
     <h2 class="h2">Welcome to Submitted.</h2>
@@ -24,6 +28,8 @@
       </svg>
     </figure>
     <!-- / -->
+    <h3>Active school year</h3>
+    <p>{data?.schoolYears?.find((sy) => sy.id === data.me.activeSchoolYear)?.name}</p>
   </div>
 </div>
 
@@ -33,7 +39,7 @@
   }
   figure svg,
   .img-bg {
-    @apply w-56 h-56 md:w-80 md:h-80;
+    @apply w-56 h-56 md:w-80 md:h-80 text-primary;
   }
   .img-bg {
     @apply absolute z-[-1] rounded-full blur-[60px] transition-all;
@@ -45,19 +51,16 @@
     0% {
       @apply bg-primary;
     }
-    33% {
-      @apply bg-secondary;
-    }
-    66% {
-      @apply bg-accent;
+    50% {
+      @apply bg-white;
     }
     100% {
       @apply bg-primary;
     }
   }
   @keyframes pulse {
-    20% {
-      transform: scale(1.2);
+    50% {
+      transform: scale(0.3);
     }
   }
 </style>

@@ -1,6 +1,6 @@
 import { db, subjects } from '$lib/data'
-import { deleteAction } from '$lib/server-utils'
 import { subjectUpdateSchema } from '$lib/schema'
+import { deleteAction } from '$lib/server-utils'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'

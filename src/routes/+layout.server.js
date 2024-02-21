@@ -3,7 +3,7 @@ import {
   groups as groupModel,
   schoolYears as schoolYearModel,
 } from '$lib/data'
-import { desc } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load(event) {
@@ -13,7 +13,11 @@ export async function load(event) {
     .select()
     .from(schoolYearModel)
     .orderBy(desc(schoolYearModel.endDate))
-  const groups = await db.select().from(groupModel).orderBy(groupModel.grade)
+  const groups = await db
+    .select()
+    .from(groupModel)
+    .where(eq(groupModel.schoolYearId, me.activeSchoolYear))
+    .orderBy(groupModel.grade)
   return {
     me,
     schoolYears,

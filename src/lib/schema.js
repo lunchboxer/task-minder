@@ -31,20 +31,21 @@ export const schoolYearUpdateSchema = schoolYearCreateSchema.extend({
 export const groupCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   grade: z.string().min(1, { message: 'Grade is required' }),
-  schoolYearId: z.string().length(12),
 })
 
 export const groupUpdateSchema = groupCreateSchema.extend({
   id: z.string(),
+  schoolYearId: z.string().length(12).optional(),
 })
 
 export const studentCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
-  groupId: z.string().length(12).optional(),
+  groupId: z.string().length(12),
 })
 
-export const studentUpdateSchema = studentCreateSchema.extend({
-  id: z.string(),
+export const studentUpdateSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }).max(60),
+  id: z.string().length(12),
 })
 
 export const subjectCreateSchema = z.object({
@@ -53,4 +54,9 @@ export const subjectCreateSchema = z.object({
 
 export const subjectUpdateSchema = subjectCreateSchema.extend({
   id: z.string(),
+})
+
+export const addStudentToGroupSchema = z.object({
+  studentId: z.string().length(12),
+  groupId: z.string().length(12),
 })

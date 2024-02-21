@@ -22,16 +22,28 @@ const getUserFromToken = async token => {
 
 const routesNotProtected = ['/about', '/login', '/logout', '/register']
 
+const redirectWithReturn = (event, redirectUrl) => {
+  const newPath =
+    event.url.pathname === '/'
+      ? redirectUrl
+      : `${redirectUrl}?returnTo=${event.url.pathname}`
+  throw redirect(302, newPath)
+}
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const authToken = event.cookies.get('auth')
   event.locals.user = await getUserFromToken(authToken)
   if (!(routesNotProtected.includes(event.url.pathname) || event.locals.user)) {
-    const newPath =
-      event.url.pathname === '/'
-        ? '/login'
-        : `/login?returnTo=${event.url.pathname}`
-    throw redirect(302, newPath)
+    redirectWithReturn(event, '/login')
+  } else if (
+    !(
+      routesNotProtected.includes(event.url.pathname) ||
+      event.locals.user?.activeSchoolYear
+    ) &&
+    event.url.pathname !== '/setup'
+  ) {
+    redirectWithReturn(event, '/setup')
   }
   return resolve(event)
 }

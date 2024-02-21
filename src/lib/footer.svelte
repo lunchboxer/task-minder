@@ -4,7 +4,7 @@
 
 <footer class="footer flex justify-between p-4 bg-base-200 text-base-content">
   <nav>
-    <p>&copy; 2024 James Smith</p>
+    <p><small>&copy; 2024 James Smith</small></p>
   </nav>
   <nav>
     <ThemeSwitcher />

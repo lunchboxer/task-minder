@@ -1,4 +1,5 @@
 <script>
+  import ActiveSchoolYearForm from '$lib/active-school-year-form.svelte'
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import SchoolYearAddForm from './school-year-add-form.svelte'
   export let data
@@ -14,5 +15,11 @@
     </p>
   {/each}
 {/if}
+
+<h2>Change active school year</h2>
+<ActiveSchoolYearForm
+  schoolYears={data.schoolYears}
+  activeSchoolYearId={data.me.activeSchoolYear}
+/>
 
 <SchoolYearAddForm />

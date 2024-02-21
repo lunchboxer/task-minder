@@ -1,6 +1,6 @@
 import { db, schoolYears } from '$lib/data'
 import { schoolYearUpdateSchema } from '$lib/schema'
-import { parseForm, deleteAction } from '$lib/server-utils'
+import { deleteAction, parseForm } from '$lib/server-utils'
 import { error } from '@sveltejs/kit'
 import { fail } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'

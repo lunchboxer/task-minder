@@ -12,6 +12,7 @@
   export let action = ''
   export let onReset = () => {}
   export let onSuccess = () => {}
+  export let inline = false
 
   let formComponent
   let restart = 1
@@ -53,32 +54,33 @@
   }
 </script>
 
-<div class="container max-w-md">
+<div class="container max-w-md" class:inline class:container={!inline} class:max-w-md={!inline}>
   <Error {errors} />
   <form
     {method}
+    class:inline
     use:enhance={submitHandler}
     {action}
     on:reset|preventDefault={reset}
     bind:this={formComponent}
   >
-    <div class="form-items">
-      {#key restart}
-        <slot />
-      {/key}
-    </div>
-    <div class="button-group justify-end flex flex-wrap py-4">
-      <slot name="buttons">
-        <input class="btn grow" type="reset" value={resetLabel} />
-        <button class="btn btn-primary grow" disabled={loading} type="submit">
-          {#if loading}
-            <span class="loading loading-spinner"></span>
-            loading
-          {:else}
-            {submitLabel}
-          {/if}
-        </button>
-      </slot>
-    </div>
+    {#key restart}
+      <slot />
+    {/key}
+    {#if !inline}
+      <div class="button-group justify-end flex flex-wrap py-4">
+        <slot name="buttons">
+          <input class="btn grow" type="reset" value={resetLabel} />
+          <button class="btn btn-primary grow" disabled={loading} type="submit">
+            {#if loading}
+              <span class="loading loading-spinner"></span>
+              loading
+            {:else}
+              {submitLabel}
+            {/if}
+          </button>
+        </slot>
+      </div>
+    {/if}
   </form>
 </div>
