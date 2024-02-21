@@ -20,6 +20,7 @@
 <li><a href="/groups">Groups</a></li>
 <li><a href="/subjects">Subjects</a></li>
 <li><a href="/students">Students</a></li>
+<li><a href="/assignments">Assignments</a></li>
 
 <br />
 <div class="divider">{me?.username}</div>

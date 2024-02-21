@@ -11,9 +11,7 @@
   <div class="modal-box">
     <h2 class="font-bold text-xl">{heading}</h2>
     <p class="py-4">{message}</p>
-    <div class="modal-action">
-      <slot />
-    </div>
+    <slot />
   </div>
   <form method="dialog" class="modal-backdrop">
     <button>close</button>

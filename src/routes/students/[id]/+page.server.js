@@ -8,7 +8,7 @@ import {
 } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { eq, and, not } from 'drizzle-orm'
+import { and, eq, not } from 'drizzle-orm'
 
 export async function load({ params }) {
   const student = await db

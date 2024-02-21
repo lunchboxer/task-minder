@@ -146,9 +146,9 @@ export const assignments = sqliteTable('assignments', {
   type: text('type', { enum: ['classwork', 'homework'] })
     .notNull()
     .default('homework'),
-  subject: text('subject')
+  subjectId: text('subject_id')
     .notNull()
-    .references(() => subjects.name),
+    .references(() => subjects.id),
   groupId: text('group_id')
     .notNull()
     .references(() => groups.id),
@@ -163,8 +163,8 @@ export const assignmentsRelations = relations(assignments, ({ many, one }) => ({
     references: [groups.id],
   }),
   subject: one(subjects, {
-    fields: [assignments.subject],
-    references: [subjects.name],
+    fields: [assignments.subjectId],
+    references: [subjects.id],
   }),
   submissions: many(submissions),
 }))

@@ -54,7 +54,7 @@
   }
 </script>
 
-<div class="container max-w-md" class:inline class:container={!inline} class:max-w-md={!inline}>
+<div class:inline class:container={!inline} class:max-w-md={!inline}>
   <Error {errors} />
   <form
     {method}
