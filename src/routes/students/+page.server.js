@@ -41,7 +41,6 @@ export const actions = {
       return { success: true }
     } catch (error) {
       dev && console.error(error)
-      console.info('caught')
       return fail(500, {
         errors: { all: 'A server error occurred when adding student.' },
       })

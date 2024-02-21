@@ -1,10 +1,14 @@
 import { dev } from '$app/environment'
 import { db } from '$lib/data'
 import { groups, students, studentsToGroups } from '$lib/data/schema'
-import { addStudentToGroupSchema, studentUpdateSchema } from '$lib/schema'
+import {
+  addStudentToGroupSchema,
+  studentUpdateSchema,
+  toggleArchiveStudentSchema,
+} from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { eq, and } from 'drizzle-orm'
+import { eq, and, not } from 'drizzle-orm'
 
 export async function load({ params }) {
   const student = await db
@@ -82,6 +86,22 @@ export const actions = {
       return fail(500, {
         errors: { all: 'Could not remove group from student' },
       })
+    }
+  },
+  toggleArchive: async ({ request }) => {
+    const formData = await parseForm(toggleArchiveStudentSchema, request)
+    if (formData.errors) return fail(400, formData)
+    try {
+      const result = await db
+        .update(students)
+        .set({ archived: not(students.archived) })
+        .where(eq(students.id, formData.studentId))
+      if (result.changes === 0)
+        return fail(500, { errors: { all: 'Could not update student' } })
+      return { success: true }
+    } catch (error) {
+      dev && console.error(error)
+      return fail(500, { errors: { all: 'Could not update student' } })
     }
   },
 }

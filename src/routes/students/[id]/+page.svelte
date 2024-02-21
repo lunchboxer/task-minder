@@ -88,4 +88,21 @@
 
 <hr />
 
+<h3>Archiving/deactivating</h3>
+<p>
+  When a student leaves the school or no longer should show up in student group lists, they can be
+  archived and deactivated without deleting them.
+</p>
+<Form
+  inline="true"
+  action="?/toggleArchive"
+  successMessage={student?.archived
+    ? 'Student successfully unarchived'
+    : 'Student successfully archived'}
+>
+  <input type="hidden" name="studentId" value={student?.id} />
+  <button class="btn" type="submit"> {student?.archived ? 'Unarchive' : 'Archive'} Student </button>
+</Form>
+
+<hr />
 <DeleteModal thing={student} thingName="student" />

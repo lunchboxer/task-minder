@@ -60,3 +60,7 @@ export const addStudentToGroupSchema = z.object({
   studentId: z.string().length(12),
   groupId: z.string().length(12),
 })
+
+export const toggleArchiveStudentSchema = z.object({
+  studentId: z.string().length(12),
+})

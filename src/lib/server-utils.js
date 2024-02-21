@@ -50,7 +50,6 @@ export const addAction = async (
     return { success: true }
   } catch (error) {
     dev && console.error(error)
-    console.info('caught')
     return fail(500, {
       errors: { all: 'New record was not added to database.' },
     })
