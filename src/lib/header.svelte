@@ -13,7 +13,7 @@
         aria-label="open sidebar"
       >
         <!-- this hidden checkbox controls the state -->
-        <input type="checkbox" bind:checked />
+        <input type="checkbox" id="hidden-sidebar-trigger" bind:checked />
 
         <!-- hamburger icon -->
         <svg

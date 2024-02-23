@@ -20,8 +20,8 @@ export const registerSchema = loginSchema.extend({
 
 export const schoolYearCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
-  startDate: z.string().length(10, { message: 'Start date is required' }),
-  endDate: z.string().length(10, { message: 'End date is required' }),
+  start_date: z.string().length(10, { message: 'Start date is required' }),
+  end_date: z.string().length(10, { message: 'End date is required' }),
 })
 
 export const schoolYearUpdateSchema = schoolYearCreateSchema.extend({
@@ -31,16 +31,16 @@ export const schoolYearUpdateSchema = schoolYearCreateSchema.extend({
 export const groupCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   grade: z.string().min(1, { message: 'Grade is required' }),
+  school_year_id: z.string().length(12),
 })
 
 export const groupUpdateSchema = groupCreateSchema.extend({
   id: z.string(),
-  schoolYearId: z.string().length(12).optional(),
 })
 
 export const studentCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
-  groupId: z.string().length(12),
+  student_group_id: z.string().length(12),
 })
 
 export const studentUpdateSchema = z.object({
@@ -57,21 +57,22 @@ export const subjectUpdateSchema = subjectCreateSchema.extend({
 })
 
 export const addStudentToGroupSchema = z.object({
-  studentId: z.string().length(12),
-  groupId: z.string().length(12),
+  student_id: z.string().length(12),
+  student_group_id: z.string().length(12),
 })
 
 export const toggleArchiveStudentSchema = z.object({
-  studentId: z.string().length(12),
+  student_id: z.string().length(12),
+  archived: z.coerce.number().int().min(0).max(1),
 })
 export const assignmentCreateSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }).max(60),
   description: z.string(),
-  groupId: z.string().length(12, { message: 'Group is required' }),
+  student_group_id: z.string().length(12, { message: 'Group is required' }),
   type: z.enum(['classwork', 'homework']),
-  assignedDate: z.string().nullable(),
-  dueDate: z.string().nullable(),
-  subjectId: z.string().length(12, { message: 'Subject is required' }),
+  assigned_date: z.string().nullable(),
+  due_date: z.string().nullable(),
+  subject_id: z.string().length(12, { message: 'Subject is required' }),
 })
 export const assignmentUpdateSchema = assignmentCreateSchema.extend({
   id: z.string().length(12),

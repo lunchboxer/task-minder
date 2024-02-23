@@ -1,13 +1,13 @@
 <script>
   import { page } from '$app/stores'
-  import { camelCase } from '$lib/utils'
+  import { toSnakeCase } from '$lib/utils'
 
   export let label = ''
   export let name = ''
   export let description = ''
   export let selected = ''
 
-  const id = name || camelCase(label)
+  const id = name || toSnakeCase(label)
   const descriptionId = `description-${id}`
 
   export let required = false

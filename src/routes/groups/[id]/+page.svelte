@@ -19,9 +19,9 @@
   <TextInput label="Grade" data={group} />
   <Select
     label="School Year"
-    name="schoolYearId"
+    name="school_year_id"
     options={data?.schoolYears.map((s) => ({ label: s.name, value: s.id }))}
-    selected={group?.schoolYearId}
+    selected={group?.school_year_id}
   />
 </Form>
 

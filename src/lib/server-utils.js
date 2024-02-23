@@ -1,7 +1,30 @@
 import { dev } from '$app/environment'
-import { db } from '$lib/data'
+import { client } from '$lib/data'
 import { fail } from '@sveltejs/kit'
-import { eq } from 'drizzle-orm'
+import { nanoid } from 'nanoid'
+
+function generateInsertSQL(data, tableName) {
+  data.id = nanoid(12)
+  const columns = Object.keys(data).join(', ')
+  const values = Object.values(data)
+  const placeholders = values.map(() => '?').join(', ')
+
+  return {
+    sql: `INSERT INTO ${tableName} (${columns}) VALUES (${placeholders})`,
+    args: values,
+  }
+}
+
+function generateUpdateSQL(data, tableName) {
+  const columns = Object.keys(data)
+    .map(key => `${key} = ?`)
+    .join(', ')
+  const values = Object.values(data)
+  return {
+    sql: `UPDATE ${tableName} SET ${columns} WHERE id = ?`,
+    args: [...values, data.id],
+  }
+}
 
 export async function parseForm(schema, request) {
   const formDataThing = await request.formData()
@@ -18,40 +41,83 @@ export async function parseForm(schema, request) {
   return formDataObject
 }
 
-export const deleteAction = async (request, model) => {
+export const deleteAction = async (request, tableName) => {
   const data = await request.formData()
   const id = data.get('id')
-  const result = await db.delete(model).where(eq(model.id, id))
-  if (result.changes === 0)
+  const result = await client.execute({
+    sql: `DELETE FROM ${tableName} WHERE id = ?`,
+    args: [id],
+  })
+  if (result.rowsAffected === 0)
     return fail(500, { errors: { all: 'Could not delete record' } })
   return { success: true }
 }
 
-export const addAction = async (
+export const updateAction = async (
   request,
-  model,
+  tableName,
   validationSchema,
   otherValidations,
+  customQueryObject,
 ) => {
   const formData = await parseForm(validationSchema, request)
   if (formData.errors) return fail(400, formData)
   try {
-    if (otherValidations && otherValidations.length > 0) {
-      for (const validation of otherValidations) {
-        const result = await validation(formData)
-        if (result) return fail(400, result)
+    if (otherValidations) {
+      const validations = Array.isArray(otherValidations)
+        ? otherValidations
+        : [otherValidations]
+      for (const validation of validations) {
+        const errors = await validation(formData)
+        if (errors) return fail(400, errors)
       }
     }
-    const result = await db.insert(model).values(formData)
-    if (result.changes === 0)
+    const sql = customQueryObject || generateUpdateSQL(formData, tableName)
+    const result = await client.execute(sql)
+    if (result.rowsAffected === 0)
       return fail(500, {
-        errors: { all: 'New record was not added to database.' },
+        errors: { all: 'Record was not updated.' },
       })
     return { success: true }
   } catch (error) {
     dev && console.error(error)
     return fail(500, {
-      errors: { all: 'New record was not added to database.' },
+      errors: { all: 'Record was not updated.' },
+    })
+  }
+}
+
+export const addAction = async (
+  request,
+  tableName,
+  validationSchema,
+  otherValidations,
+  customQueryObject,
+) => {
+  const formData = await parseForm(validationSchema, request)
+
+  if (formData.errors) return fail(400, formData)
+  try {
+    if (otherValidations) {
+      const validations = Array.isArray(otherValidations)
+        ? otherValidations
+        : [otherValidations]
+      for (const validation of validations) {
+        const errors = await validation(formData)
+        if (errors) return fail(400, errors)
+      }
+    }
+    const sql = customQueryObject || generateInsertSQL(formData, tableName)
+    const result = await client.execute(sql)
+    if (result.rowsAffected === 0)
+      return fail(500, {
+        errors: { all: 'New record was not added.' },
+      })
+    return { success: true }
+  } catch (error) {
+    dev && console.error(error)
+    return fail(500, {
+      errors: { all: 'New record was not added.' },
     })
   }
 }

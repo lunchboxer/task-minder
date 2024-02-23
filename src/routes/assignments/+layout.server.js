@@ -1,7 +1,6 @@
-import { db } from '$lib/data'
-import { subjects as subjectModel } from '$lib/data/schema'
+import { client } from '$lib/data'
 
 export const load = async () => {
-  const subjects = await db.select().from(subjectModel)
-  return { subjects }
+  const result = await client.execute('SELECT * from subject;')
+  return { subjects: result?.rows || [] }
 }

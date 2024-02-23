@@ -1,11 +1,11 @@
 <script>
   import { page } from '$app/stores'
-  import { camelCase } from '$lib/utils'
+  import { toSnakeCase } from '$lib/utils'
 
   export let name = ''
   export let options = []
   export let processedOptions = options.map((o) =>
-    typeof o === 'string' ? { label: o, value: camelCase(o) } : o,
+    typeof o === 'string' ? { label: o, value: toSnakeCase(o) } : o,
   )
 
   export let error = ''

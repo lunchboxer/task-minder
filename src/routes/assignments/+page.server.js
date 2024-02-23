@@ -1,25 +1,20 @@
-import { db } from '$lib/data'
-import {
-  assignments as assignmentModel,
-  groups as groupsModel,
-} from '$lib/data/schema'
+import { client, sql } from '$lib/data'
 import { assignmentCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
-import { eq } from 'drizzle-orm'
 
 export const load = async ({ locals }) => {
-  const { activeSchoolYear } = locals.user
-  const assignments = await db
-    .select(assignmentModel)
-    .from(assignmentModel)
-    .innerJoin(groupsModel, eq(assignmentModel.groupId, groupsModel.id))
-    .where(eq(groupsModel.schoolYearId, activeSchoolYear))
-    .orderBy(assignmentModel.dueDate)
-
-  return { assignments }
+  const { active_school_year } = locals.user
+  const result = await client.execute(
+    sql`
+      SELECT assignment.* FROM assignment 
+      JOIN student_group ON assignment.student_group_id = student_group.id
+      WHERE student_group.school_year_id = ${active_school_year}
+      ORDER BY assignment.due_date;`,
+  )
+  return { assignments: result?.rows || [] }
 }
 
 export const actions = {
   create: async ({ request }) =>
-    addAction(request, assignmentModel, assignmentCreateSchema),
+    addAction(request, 'assignment', assignmentCreateSchema),
 }

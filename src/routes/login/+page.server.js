@@ -1,11 +1,10 @@
 import { scryptSync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
-import { db, users } from '$lib/data'
+import { client, sql } from '$lib/data'
 import { loginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
 
 const sign = createSigner({ key: JWT_SECRET })
@@ -26,26 +25,25 @@ export const actions = {
     const formData = await parseForm(loginSchema, request)
     if (formData.errors) return fail(400, formData)
     const { username, password } = formData
-    const user = await db
-      .select({ id: users.id, password: users.password })
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1)
+    const result = await client.execute(
+      sql`SELECT id, password FROM user WHERE username = ${username} LIMIT 1`,
+    )
+    const user = result.rows[0]
 
-    if (user && user.length === 0) {
+    if (!user) {
       return fail(400, {
         ...formData,
         errors: { username: 'Username not found.' },
       })
     }
-    if (!passwordMatches(password, user[0].password)) {
+    if (!passwordMatches(password, user.password)) {
       return fail(400, {
         ...formData,
         errors: { password: 'Invalid password.' },
       })
     }
 
-    const token = sign({ userId: user[0].id })
+    const token = sign({ userId: user.id })
 
     cookies.set('auth', token, {
       httpOnly: true,
@@ -55,7 +53,7 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    const { password: _, ...cleanUser } = user[0]
+    const { password: _, ...cleanUser } = user
     return { success: true, user: cleanUser }
   },
 }

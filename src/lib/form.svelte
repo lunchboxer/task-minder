@@ -48,7 +48,12 @@
           text: successMessage,
         })
         onSuccess()
-        if (successUrl) goto(successUrl)
+        if (successUrl) {
+          goto(successUrl)
+          return
+        }
+        formComponent.reset()
+        formComponent.setAttribute('isValid', true)
       }
     }
   }

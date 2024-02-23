@@ -1,26 +1,20 @@
-import {
-  db,
-  groups as groupModel,
-  schoolYears as schoolYearModel,
-} from '$lib/data'
-import { desc, eq } from 'drizzle-orm'
+import { client, sql } from '$lib/data'
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load(event) {
   const me = event.locals.user
   if (!me) return
-  const schoolYears = await db
-    .select()
-    .from(schoolYearModel)
-    .orderBy(desc(schoolYearModel.endDate))
-  const groups = await db
-    .select()
-    .from(groupModel)
-    .where(eq(groupModel.schoolYearId, me.activeSchoolYear))
-    .orderBy(groupModel.grade)
+  const schoolYearsResult = await client.execute(
+    sql`SELECT * FROM school_year ORDER BY end_date DESC;`,
+  )
+  let groupsResult
+  if (me.active_school_year) {
+    const query = sql`SELECT * FROM student_group WHERE school_year_id = ${me.active_school_year} ORDER BY grade;`
+    groupsResult = await client.execute(query)
+  }
   return {
     me,
-    schoolYears,
-    groups,
+    schoolYears: schoolYearsResult?.rows || [],
+    groups: groupsResult?.rows || [],
   }
 }

@@ -8,8 +8,8 @@
   let currentSchoolYear
   for (const sy of schoolYears) {
     if (
-      Date.now() >= new Date(sy.startDate).getTime() &&
-      Date.now() <= new Date(sy.endDate).getTime()
+      Date.now() >= new Date(sy.start_date).getTime() &&
+      Date.now() <= new Date(sy.end_date).getTime()
     ) {
       currentSchoolYear = sy.id
     }
@@ -27,5 +27,5 @@
   successUrl="/"
   successMessage="Active school year set"
 >
-  <Select label="School year" name="activeSchoolYear" {options} {selected} />
+  <Select label="Active school year" {options} {selected} />
 </Form>

@@ -1,12 +1,12 @@
 import { randomBytes, scryptSync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
-import { db, users } from '$lib/data/index'
+import { client, sql } from '$lib/data/index'
 import { registerSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { eq } from 'drizzle-orm'
 import { createSigner } from 'fast-jwt'
+import { nanoid } from 'nanoid'
 
 const sign = createSigner({ key: JWT_SECRET })
 
@@ -23,39 +23,39 @@ export const actions = {
     const formData = await parseForm(registerSchema, request)
     if (formData.errors) return fail(400, formData)
     const { username, name, password } = formData
-    const usernameTaken = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.username, username))
-      .limit(1)
+    const result = await client.execute(
+      sql`SELECT id FROM user WHERE username = ${username} LIMIT 1`,
+    )
 
-    if (usernameTaken && usernameTaken.length > 0) {
+    if (result?.rows?.length > 0) {
       return fail(400, {
         ...formData,
         errors: { username: 'Username already taken.' },
       })
     }
 
-    const newUser = await db
-      .insert(users)
-      .values({
-        username,
-        name,
-        password: hashPassword(password),
+    try {
+      const id = nanoid(12)
+      const newUserResult = await client.execute(
+        sql`INSERT INTO user (id, username, name, password) 
+        VALUES (${id}, ${username}, ${name}, ${hashPassword(password)})`,
+      )
+      if (newUserResult.rowsAffected !== 1)
+        return fail(500, { error: { all: 'Could not register new user' } })
+
+      const token = sign({ userId: id })
+
+      cookies.set('auth', token, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'strict',
+        secure: !dev,
+        maxAge: 60 * 60 * 24 * 7,
       })
-      .returning()
-
-    const token = sign({ userId: newUser[0].id })
-
-    cookies.set('auth', token, {
-      httpOnly: true,
-      path: '/',
-      sameSite: 'strict',
-      secure: !dev,
-      maxAge: 60 * 60 * 24 * 7,
-    })
-
-    const { password: _, ...cleanUser } = newUser[0]
-    return { success: true, user: cleanUser }
+      return { success: true }
+    } catch (error) {
+      dev && console.error(error)
+      return fail(500, { error: { all: 'Could not register new user' } })
+    }
   },
 }

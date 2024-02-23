@@ -36,6 +36,6 @@
     {successMessage}
     onSuccess={() => modal.close()}
   >
-    <input type="hidden" name="id" value={thing.id} />
+    <input type="hidden" name="id" value={thing?.id} />
   </Form>
 </Modal>

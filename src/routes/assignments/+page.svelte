@@ -36,7 +36,7 @@
         <a href="/assignments/{assignment.id}">
           {assignment.title}
         </a>
-        Due: {formatDate(assignment.dueDate)}
+        Due: {formatDate(assignment.due_date)}
       </li>
     {/each}
   </ul>
@@ -53,13 +53,13 @@
   >
     <TextInput label="Title" />
     <TextArea label="Description" />
-    <Select label="Group" name="groupId" {options} {selected} />
+    <Select label="Group" name="student_group_id" {options} {selected} />
     <RadioGroup name="type" options={['Classwork', 'Homework']} selected="homework" />
     <TextInput label="Assigned date" type="date" value={today} />
     <TextInput label="Due date" type="date" value={tomorrow} />
     <Select
       label="Subject"
-      name="subjectId"
+      name="subject_id"
       options={data?.subjects?.map((s) => ({ label: s.name, value: s.id }))}
     />
   </Form>

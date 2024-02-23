@@ -12,7 +12,7 @@
   const options = groups.map((g) => ({ label: g.name, value: g.id }))
 
   const oneIsActive = (studentGroups) => {
-    return studentGroups.some((g) => g.schoolYearId === me.activeSchoolYear)
+    return studentGroups.some((g) => g.school_year_id === me.active_school_year)
   }
 </script>
 
@@ -34,7 +34,7 @@
           <a href="/groups/{group.id}">
             {group.name}
           </a>
-          {#if group.schoolYearId === me.activeSchoolYear}
+          {#if group.school_year_id === me.active_school_year}
             <span class="badge badge-secondary">Active</span>
           {:else}
             <span class="badge badge-ghost">
@@ -48,8 +48,8 @@
             action="?/removeFromGroup"
             successMessage="Removed from group {group?.name}"
           >
-            <input type="hidden" name="studentId" value={student?.id} />
-            <input type="hidden" name="groupId" value={group?.id} />
+            <input type="hidden" name="student_id" value={student?.id} />
+            <input type="hidden" name="student_group_id" value={group?.id} />
             <button class="btn btn-circle btn-xs">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -77,8 +77,8 @@
   {#if !oneIsActive(studentGroups)}
     <h3>Add student to a group</h3>
     <Form action="?/addGroup" submitLabel="Add" successMessage="Student added to group">
-      <input type="hidden" name="studentId" value={student?.id} />
-      <Select label="Group" name="groupId" {options} />
+      <input type="hidden" name="student_id" value={student?.id} />
+      <Select label="Group" name="student_group_id" {options} />
     </Form>
   {/if}
 {:else}
@@ -100,7 +100,8 @@
     ? 'Student successfully unarchived'
     : 'Student successfully archived'}
 >
-  <input type="hidden" name="studentId" value={student?.id} />
+  <input type="hidden" name="student_id" value={student?.id} />
+  <input type="hidden" name="archived" value={student?.archived ? 0 : 1} />
   <button class="btn" type="submit"> {student?.archived ? 'Unarchive' : 'Archive'} Student </button>
 </Form>
 

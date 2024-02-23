@@ -11,7 +11,7 @@
 {#if data.schoolYears}
   {#each data.schoolYears as schoolYear}
     <p>
-      <a href="/school-years/{schoolYear.id}">"{schoolYear.name}"</a> : {schoolYear.startDate} to {schoolYear.endDate}
+      <a href="/school-years/{schoolYear.id}">"{schoolYear.name}"</a> : {schoolYear.start_date} to {schoolYear.end_date}
     </p>
   {/each}
 {/if}

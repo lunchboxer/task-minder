@@ -7,7 +7,7 @@
 
 <h1>Setup</h1>
 <p>A few things need to be set up before anything else can be done.</p>
-{#if data.schoolYears.length === 0}
+{#if data?.schoolYears?.length === 0}
   <SchoolYearAddForm />
 {:else}
   <h2>Select active school year</h2>

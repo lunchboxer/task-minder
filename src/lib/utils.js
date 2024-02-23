@@ -3,3 +3,5 @@ export const camelCase = str =>
     if (+match === 0) return ''
     return index === 0 ? match.toLowerCase() : match.toUpperCase()
   })
+
+export const toSnakeCase = str => str.toLowerCase().replace(/\s/g, '_')

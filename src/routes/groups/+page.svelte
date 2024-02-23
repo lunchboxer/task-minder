@@ -22,4 +22,4 @@
   <p>No groups yet.</p>
 {/if}
 
-<GroupAddForm />
+<GroupAddForm activeSchoolYearId={data.me.active_school_year} />

@@ -17,7 +17,7 @@
     <TextInput label="Name" />
     <Select
       label="Group"
-      name="groupId"
+      name="student_group_id"
       options={$page?.data?.groups.map((g) => ({ label: g.name, value: g.id }))}
     />
   </Form>

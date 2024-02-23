@@ -1,28 +1,17 @@
-import { DB_URL_DEV } from '$env/static/private'
-import Database from 'better-sqlite3'
-import { drizzle } from 'drizzle-orm/better-sqlite3'
-import { groups, schoolYears, students, subjects, users } from './schema'
+import { dev } from '$app/environment'
+import { DB_URL_DEV, TURSO_AUTH_TOKEN, TURSO_DB_URL } from '$env/static/private'
+import { createClient } from '@libsql/client'
 
-export const database = new Database(DB_URL_DEV ?? 'local.db')
-const db = drizzle(database)
+export const client = createClient({
+  url: dev ? DB_URL_DEV : TURSO_DB_URL,
+  authToken: TURSO_AUTH_TOKEN,
+})
 
-export { db, users, schoolYears, groups, students, subjects }
-
-// make a parameterized query but write it as a string
+// make a parameterized query but let me write it as a string
 export const sql = (strings, ...values) => ({
-  query: strings.reduce((prev, curr, i) => {
+  sql: strings.reduce((prev, curr, i) => {
     const value = values[i] ? '?' : ''
     return prev + curr + value
   }, ''),
-  values: values.filter(value => value !== undefined),
+  args: values.filter(value => value !== undefined),
 })
-
-database.pragma('journal_mode = WAL')
-
-// export const query = (query, values) => {
-//   if (typeof query === 'object') {
-//     const stmt = database.prepare(query.query)
-//     return stmt.all(...query.values)
-//   }
-//   return database.prepare(query).all(...values)
-// }

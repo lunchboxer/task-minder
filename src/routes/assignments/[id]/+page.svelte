@@ -7,9 +7,10 @@
   import DeleteModal from '$lib/delete-modal.svelte'
 
   export let data
+  $: console.log(data.assignment)
 
   const options = data.groups.map((g) => ({ label: g.name, value: g.id }))
-  const selected = data.assignment?.groupId
+  const selected = data.assignment?.student_group_id
 </script>
 
 <h1>Edit Assignment</h1>
@@ -23,15 +24,15 @@
   <input type="hidden" name="id" value={data.assignment?.id} />
   <TextInput label="Title" data={data.assignment} />
   <TextArea label="Description" data={data.assignment} />
-  <Select label="Group" name="groupId" {options} {selected} />
+  <Select label="Group" name="student_group_id" {options} {selected} />
   <RadioGroup name="type" data={data.assignment} options={['Classwork', 'Homework']} />
   <TextInput label="Assigned date" type="date" data={data.assignment} />
   <TextInput label="Due date" type="date" data={data.assignment} />
   <Select
     label="Subject"
-    name="subjectId"
+    name="subject_id"
     options={data?.subjects?.map((s) => ({ label: s.name, value: s.id }))}
-    selected={data.assignment?.subjectId}
+    selected={data.assignment?.subject_id}
   />
 </Form>
 

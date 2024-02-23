@@ -29,7 +29,7 @@
     </figure>
     <!-- / -->
     <h3>Active school year</h3>
-    <p>{data?.schoolYears?.find((sy) => sy.id === data.me.activeSchoolYear)?.name}</p>
+    <p>{data?.schoolYears?.find((sy) => sy.id === data.me.active_school_year)?.name}</p>
   </div>
 </div>
 

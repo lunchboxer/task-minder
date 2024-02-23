@@ -1,38 +1,15 @@
-import { dev } from '$app/environment'
-import { db, groups as groupModel } from '$lib/data'
+import { client, sql } from '$lib/data'
 import { groupCreateSchema } from '$lib/schema'
-import { parseForm } from '$lib/server-utils'
-import { fail } from '@sveltejs/kit'
-import { eq } from 'drizzle-orm'
+import { addAction } from '$lib/server-utils'
 
 export const load = async ({ locals }) => {
-  const groups = await db
-    .select()
-    .from(groupModel)
-    .where(eq(groupModel.schoolYearId, locals.user.activeSchoolYear))
-    .orderBy(groupModel.grade)
-  return { groups }
+  const result = await client.execute(
+    sql`SELECT * FROM student_group WHERE school_year_id = ${locals?.user?.active_school_year} ORDER BY grade;`,
+  )
+  return { groups: result?.rows || [] }
 }
+
 export const actions = {
-  create: async ({ request, locals }) => {
-    const formData = await parseForm(groupCreateSchema, request)
-    if (formData.errors) return fail(400, formData)
-    try {
-      const result = await db.insert(groupModel).values({
-        name: formData.name,
-        grade: formData.grade,
-        schoolYearId: locals.user.activeSchoolYear,
-      })
-      if (result.changes === 0)
-        return fail(500, {
-          errors: { all: 'New record was not added to database.' },
-        })
-      return { success: true }
-    } catch (error) {
-      dev && console.error(error)
-      return fail(500, {
-        errors: { all: 'New record was not added to database.' },
-      })
-    }
-  },
+  create: async ({ request }) =>
+    addAction(request, 'student_group', groupCreateSchema),
 }

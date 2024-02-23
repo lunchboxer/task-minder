@@ -2,13 +2,13 @@
   import { Fa } from 'svelte-fa'
   import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
   import { page } from '$app/stores'
-  import { camelCase } from '$lib/utils'
+  import { toSnakeCase } from '$lib/utils'
 
   export let label = ''
   export let name = ''
   export let description = ''
 
-  const id = name || camelCase(label)
+  const id = name || toSnakeCase(label)
   const descriptionId = `description-${id}`
 
   export let required = false

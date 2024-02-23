@@ -1,8 +1,7 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
-import { db, users } from '$lib/data'
+import { client, sql } from '$lib/data'
 import { redirect } from '@sveltejs/kit'
-import { eq } from 'drizzle-orm'
 import { createVerifier } from 'fast-jwt'
 
 const getUserFromToken = async token => {
@@ -11,9 +10,13 @@ const getUserFromToken = async token => {
     const verify = createVerifier({ key: JWT_SECRET })
     const verifiedToken = verify(token)
     const userId = verifiedToken?.userId
-    const user = await db.select().from(users).where(eq(users.id, userId))
-    if (!user?.[0]) return
-    const { password: _, ...authenticatedUser } = user[0]
+    if (!userId) return
+    const result = await client.execute(
+      sql`SELECT * FROM user WHERE id = ${userId} LIMIT 1`,
+    )
+    const user = result?.rows?.[0]
+    if (!user) return
+    const { password: _, ...authenticatedUser } = user
     return authenticatedUser
   } catch (error) {
     dev && console.error('getUserFromToken error', error)
@@ -39,7 +42,7 @@ export async function handle({ event, resolve }) {
   } else if (
     !(
       routesNotProtected.includes(event.url.pathname) ||
-      event.locals.user?.activeSchoolYear
+      event.locals.user?.active_school_year
     ) &&
     event.url.pathname !== '/setup'
   ) {
