@@ -13,3 +13,4 @@ bun.lockb
 *.sqlite
 static/fonts/*
 notes.md
+.cloudflare

@@ -1,4 +1,4 @@
-import { scryptSync } from 'node:crypto'
+import { pbkdf2Sync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { client, sql } from '$lib/data'
@@ -9,15 +9,10 @@ import { createSigner } from 'fast-jwt'
 
 const sign = createSigner({ key: JWT_SECRET })
 
-const encryptPassword = (password, salt) => {
-  return scryptSync(password, salt, 32).toString('hex')
-}
-
-const passwordMatches = (password, hash) => {
-  const salt = hash.slice(64)
-  const originalPassHash = hash.slice(0, 64)
-  const currentPassHash = encryptPassword(password, salt)
-  return originalPassHash === currentPassHash
+const passwordMatches = (password, hashedPassword) => {
+  const [hash, salt] = hashedPassword.split(':')
+  const newHash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
+  return newHash === hash
 }
 
 export const actions = {
@@ -53,7 +48,6 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    const { password: _, ...cleanUser } = user
-    return { success: true, user: cleanUser }
+    return { success: true }
   },
 }

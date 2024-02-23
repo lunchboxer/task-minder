@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync } from 'node:crypto'
+import { randomBytes, pbkdf2Sync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { client, sql } from '$lib/data/index'
@@ -10,12 +10,10 @@ import { nanoid } from 'nanoid'
 
 const sign = createSigner({ key: JWT_SECRET })
 
-const encryptPassword = (password, salt) => {
-  return scryptSync(password, salt, 32).toString('hex')
-}
-const hashPassword = password => {
+function hashPassword(password) {
   const salt = randomBytes(16).toString('hex')
-  return encryptPassword(password, salt) + salt
+  const hash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
+  return `${hash}:${salt}`
 }
 
 export const actions = {
