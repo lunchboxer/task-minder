@@ -1,15 +1,13 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
+import { verifyAndDecodeJWT } from '$lib/crypto'
 import { client, sql } from '$lib/data'
 import { redirect } from '@sveltejs/kit'
-import { createVerifier } from 'fast-jwt'
 
 const getUserFromToken = async token => {
   if (!token) return
   try {
-    const verify = createVerifier({ key: JWT_SECRET })
-    const verifiedToken = verify(token)
-    const userId = verifiedToken?.userId
+    const { userId } = await verifyAndDecodeJWT(token, JWT_SECRET)
     if (!userId) return
     const result = await client.execute(
       sql`SELECT * FROM user WHERE id = ${userId} LIMIT 1`,

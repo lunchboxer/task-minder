@@ -1,20 +1,11 @@
-import { randomBytes, pbkdf2Sync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
+import { generateJWT, hashPassword } from '$lib/crypto'
 import { client, sql } from '$lib/data/index'
 import { registerSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { createSigner } from 'fast-jwt'
 import { nanoid } from 'nanoid'
-
-const sign = createSigner({ key: JWT_SECRET })
-
-function hashPassword(password) {
-  const salt = randomBytes(16).toString('hex')
-  const hash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
-  return `${hash}:${salt}`
-}
 
 export const actions = {
   default: async ({ request, cookies }) => {
@@ -36,12 +27,12 @@ export const actions = {
       const id = nanoid(12)
       const newUserResult = await client.execute(
         sql`INSERT INTO user (id, username, name, password) 
-        VALUES (${id}, ${username}, ${name}, ${hashPassword(password)})`,
+        VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})`,
       )
       if (newUserResult.rowsAffected !== 1)
         return fail(500, { error: { all: 'Could not register new user' } })
 
-      const token = sign({ userId: id })
+      const token = await generateJWT({ userId: id }, JWT_SECRET)
 
       cookies.set('auth', token, {
         httpOnly: true,

@@ -1,19 +1,12 @@
-import { pbkdf2Sync } from 'node:crypto'
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
+import { generateJWT, passwordMatches } from '$lib/crypto'
 import { client, sql } from '$lib/data'
 import { loginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
-import { createSigner } from 'fast-jwt'
 
-const sign = createSigner({ key: JWT_SECRET })
-
-const passwordMatches = (password, hashedPassword) => {
-  const [hash, salt] = hashedPassword.split(':')
-  const newHash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
-  return newHash === hash
-}
+// const sign = createSigner({ key: JWT_SECRET })
 
 export const actions = {
   default: async ({ request, cookies }) => {
@@ -38,7 +31,7 @@ export const actions = {
       })
     }
 
-    const token = sign({ userId: user.id })
+    const token = await generateJWT({ userId: user.id }, JWT_SECRET)
 
     cookies.set('auth', token, {
       httpOnly: true,
