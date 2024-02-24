@@ -1,8 +1,8 @@
 import { client, sql } from '$lib/data'
 
 /** @type {import('./$types').LayoutServerLoad} */
-export async function load(event) {
-  const me = event.locals.user
+export async function load({ locals }) {
+  const me = locals.user
   if (!me) return
   const schoolYearsResult = await client.execute(
     sql`SELECT * FROM school_year ORDER BY end_date DESC;`,
