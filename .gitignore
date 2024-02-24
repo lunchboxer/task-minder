@@ -14,3 +14,4 @@ bun.lockb
 static/fonts/*
 notes.md
 .cloudflare
+wrangler.toml
